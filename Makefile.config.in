@@ -1,0 +1,78 @@
+#*********************************************************************#
+#                                                                     #
+#                          Caml Images                                #
+#                                                                     #
+#            François Pessaux, projet Cristal, INRIA Rocquencourt     #
+#            Pierre Weis, projet Cristal, INRIA Rocquencourt          #
+#            Jun Furuse, projet Cristal, INRIA Rocquencourt           #
+#                                                                     #
+#  Copyright 1999-2004,                                               #
+#  Institut National de Recherche en Informatique et en Automatique.  #
+#  Distributed only by permission.                                    #
+#                                                                     #
+#*********************************************************************#
+
+#(* $Id: Makefile.config.in,v 1.48 2009/03/01 12:05:59 furuse Exp $ *)
+
+@SET_MAKE@
+
+# tools
+OCAMLC		= @OCAMLC@
+OCAMLOPT	= @OCAMLOPT@
+OCAMLDEP	= @OCAMLDEP@
+OCAMLMKTOP	= @OCAMLMKTOP@
+OCAMLMKLIB	= @OCAMLMKLIB@
+OCAMLSITELIBIR	= @OCAMLSITELIBDIR@
+CFLAGS		= @CFLAGS@
+COMPFLAGS	= @COMPFLAGS@
+INSTALL		= @INSTALL@
+
+# flags
+COMPFLAGS	= -warn-error A
+LINKFLAGS	= 
+CFLAGS		= @CFLAGS@
+LDFLAGS		= @LDFLAGS@
+BYT_LINKFLAGS	= $(LINKFLAGS) $(LOCAL_LINKFLAGS)
+OPT_LINKFLAGS	= $(LINKFLAGS:.cma=.cmxa) $(LOCAL_LINKFLAGS:.cma=.cmxa)
+INCXPM		= @INCXPM@
+INCFREETYPE	= @INCFREETYPE@
+LIBFREETYPE	= @LIBFREETYPE@
+LIBXPM		= @LIBXPM@
+LIBTIFF		= @LIBTIFF@
+LIBPNG		= @LIBPNG@
+LIBJPEG		= @LIBJPEG@
+LIBGIF		= @LIBGIF@
+
+# environment
+LABLGTKDIR	= @LABLGTKDIR@
+LABLGTK2DIR	= @LABLGTK2DIR@
+OCAMLLIB	= @OCAMLLIB@
+PATH_RGB_TXT	= @PATH_RGB_TXT@
+PATH_GS		= @PATH_GS@
+WORD_SIZE	= @WORD_SIZE@
+
+# package
+PACKAGE_NAME	= @PACKAGE_NAME@
+PACKAGE_VERSION	= @PACKAGE_VERSION@
+LIBNAME		= $(PACKAGE_NAME)
+LIBDIR		= $(OCAMLLIB)/$(LIBNAME)
+
+# format support
+SUPPORT_GIF	= @SUPPORT_GIF@
+SUPPORT_PNG	= @SUPPORT_PNG@
+SUPPORT_JPEG	= @SUPPORT_JPEG@
+SUPPORT_TIFF	= @SUPPORT_TIFF@
+SUPPORT_FREETYPE= @SUPPORT_FREETYPE@
+SUPPORT_PS	= @SUPPORT_PS@
+SUPPORT_XPM	= @SUPPORT_XPM@
+
+# build directories
+EXAMPLEDIRS	= @EXAMPLEDIRS@
+BUILDDIRS	= @BUILDDIRS@
+
+LISTPATH	= ./
+MLBYTOBJS	= $(MLMODULES:=.cmo)
+MLOPTOBJS	= $(MLMODULES:=.cmx)
+COBJS		= $(CMODULES:=.o)
+WITH_CAMLIMAGES	= @WITH_CAMLIMAGES@
+WITH_UNIX	= unix.cma

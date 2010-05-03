@@ -1,0 +1,20 @@
+open configure/Configure
+
+Check_header(header) =
+  ConfMsgChecking($(header))
+  ConfMsgFound($(CheckCHeader $(header)))
+
+Check_library(lib, func) =
+  ConfMsgChecking($(func) in -l$(lib))
+  ConfMsgFound($(CheckCLib $(lib), $(func)))
+
+Check_header_library(lib, header, func) =
+  # We cannot use the same variable names and $(and ...).
+  # It fails saying Self-referential variable.
+  # Dunno what it means but probably is due to some object magic
+  if $(Check_header $(header)) 
+    Check_library ($(lib), $(func)) 
+  else False
+
+res = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
+println(hoge $(res))

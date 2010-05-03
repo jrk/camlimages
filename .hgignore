@@ -1,4 +1,8 @@
 .*\.cm[a-z]+$
 .*~$
-\.(sp[io]t|annot|o|cm[a-z]+|orig|omc|lock)$
+\.(sp[io]t|annot|o|cm[a-z]+|orig|omc|lock|a|so)$
 \.omakedb$
+CVS/.*
+autom4te\.cache/.*
+\.\#
+^missing$

@@ -1,0 +1,18 @@
+name = "CamlImages"
+version = "@PACKAGE_VERSION@"
+description = "Objective Caml image processing library"
+requires = "@REQUIRES@"
+archive(byte) = "@PACKAGE_NAME@.cma"
+archive(native) = "@PACKAGE_NAME@.cmxa"
+
+package "lablgtk" (
+  directory = "+lablgtk"
+  archive(byte) = "lablgtk.cma"
+  archive(native) = "lablgtk.cmxa"
+)
+
+package "lablgtk2" (
+  directory = "+lablgtk2"
+  archive(byte) = "lablgtk.cma"
+  archive(native) = "lablgtk.cmxa"
+)
