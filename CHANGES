@@ -1,3 +1,7 @@
+3.3.0
+	* Stop supporting the autoconf non sense and use omake.
+	* New bug reporter email address
+
 3.0.2
         * O'Caml 3.11 port.
 	* Integer overflow vulnerability fix for pngread.c

@@ -28,7 +28,7 @@ end
 val create :
   kind:Gdk.Image.image_type -> visual:Gdk.visual -> 
     width: int -> height: int -> ximage
-val get_image : 'a Gdk.drawable -> 
+val get_image : [> `drawable] Gobject.obj -> 
   x:int -> y:int -> width:int -> height:int -> ximage
 val of_image :
   Gdk.visual -> (float -> unit) option -> OImages.oimage -> ximage

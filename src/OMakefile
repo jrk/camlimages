@@ -1,0 +1,106 @@
+.PHONY: all clean clibrary library
+
+.DEFAULT: clibrary library META
+
+LIBRARY_NAME=camlimages
+
+CFILES[]=
+  ftintf
+  gifread
+  gifwrite
+  jpegread
+  jpegwrite
+  pngread
+  pngwrite
+  tiffread
+  tiffwrite
+  xpmread
+  xpmwrite
+
+FILES[]=
+  bitmap
+  blend
+  bmp
+  camlimages
+  cmyk32
+  color
+  colorhist
+  freetype
+  ftlow
+  fttext
+  genimage
+  geometry
+  gif
+  graphic_image
+  imagegdk
+  images
+  index16
+  index8
+  jis_table
+  jis_unicode
+  jpeg
+  mstring
+  oBmp
+  oColor
+  oFreetype
+  oGif
+  oGraphic
+  oImages
+  oJpeg
+  oPng
+  oPpm
+  oPs
+  oTiff
+  oXimage
+  oXimage2
+  oXpm
+  oXvthumb
+  png
+  ppm
+  ps
+  reduce
+  region
+  rgb24
+  rgba32
+  tiff
+  tmpfile
+  units
+  ximage
+  ximage2
+  xpm
+  xvthumb
+
+OCAMLPACKS[]=
+  lablgtk2
+
+CFLAGS+= -fPIC -I $(shell ocamlc -where)
+clibrary: $(OCamlMkLibC $(LIBRARY_NAME), $(CFILES))
+
+$(LIBRARY_NAME).cma $(LIBRARY_NAME).cmxa: clibrary
+
+# OCAML_{BYTE,NATIVE}_LINK_FLAGS do not work for OCamlLibrary
+# Bit dirty workaround
+OCAMLCFLAGS+=-dllib -lcamlimages
+OCAMLOPTFLAGS+=-cclib -lcamlimages
+# use mapprefix instead of addprefix, otherwise "-cclib -lgif"
+# is considered one option.
+OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(LDFLAGS))
+
+library: $(OCamlLibrary $(LIBRARY_NAME), $(FILES))
+
+clean:
+  rm -f $(LIBRARY_NAME).spot
+  rm -f $(filter-proper-targets $(ls R, .))
+
+LocalOCamlGeneratedFiles(camlimages.ml)
+ConfReplaceAt(camlimages.ml)
+
+ConfReplaceAt(META)
+
+#camlimages.ml: camlimages.ml.in
+#  section: # I dunno but section is required
+#    stdout = $(fopen camlimages.ml, w)
+#    fsubst(camlimages.ml.in)
+#    case $"@\([A-Z0-9_]+\)@" g
+#      getvar($1)
+#    close($(stdout))

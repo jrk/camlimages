@@ -263,7 +263,7 @@ camlimages.ml: $(top_srcdir)/config.status camlimages.ml.in
 		-e 's,@SUPPORT_PS\@,$(SUPPORT_PS),g' \
 		-e 's,@SUPPORT_XPM\@,$(SUPPORT_XPM),g' \
 		-e 's,@PATH_RGB_TXT\@,$(PATH_RGB_TXT),g' \
-		-e 's,@GS\@,$(GS),g' \
+		-e 's,@PATH_GS\@,$(GS),g' \
 		-e 's,@WORD_SIZE\@,$(WORD_SIZE),g' \
 		$(srcdir)/camlimages.ml.in > camlimages.ml.tmp
 	mv camlimages.ml.tmp camlimages.ml

@@ -170,13 +170,13 @@ ocamlsitelibDATA_INSTALL = $(INSTALL_DATA)
 ocamlstublibDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(ocamlsitelib_DATA) $(ocamlstublib_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = aclocal -I ../autoconf
+ACLOCAL = ${SHELL} /home/jun/.share/projects/camlimages/missing --run aclocal-1.9
 AMDEP_FALSE = #
 AMDEP_TRUE = 
-AMTAR = ${SHELL} /home/jun/.share/projects/external/camlimages/missing --run tar
-AUTOCONF = ${SHELL} /home/jun/.share/projects/external/camlimages/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/jun/.share/projects/external/camlimages/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/jun/.share/projects/external/camlimages/missing --run automake-1.9
+AMTAR = ${SHELL} /home/jun/.share/projects/camlimages/missing --run tar
+AUTOCONF = ${SHELL} /home/jun/.share/projects/camlimages/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/jun/.share/projects/camlimages/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/jun/.share/projects/camlimages/missing --run automake-1.9
 AWK = gawk
 BUILD_BYTECODE_FALSE = #
 BUILD_BYTECODE_TRUE = 
@@ -234,7 +234,7 @@ LIBS =
 LIBTIFF = -ltiff -lz -ljpeg
 LIBXPM =  -lXpm  -lSM -lICE -lX11 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/jun/.share/projects/external/camlimages/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/jun/.share/projects/camlimages/missing --run makeinfo
 OBJEXT = o
 OCAMLC = /home/jun/.share/prefix/bin/ocamlc.opt
 OCAMLCFLAGS = -warn-error A -annot
@@ -248,11 +248,11 @@ OCAMLOPT = /home/jun/.share/prefix/bin/ocamlopt.opt
 OCAMLOPT_OPT = /home/jun/.share/prefix/bin/ocamlopt.opt
 OCAMLSITELIBDIR = /home/jun/.share/prefix/lib/ocaml/site-lib/camlimages
 PACKAGE = camlimages
-PACKAGE_BUGREPORT = Pierre.Weis@inria.fr
+PACKAGE_BUGREPORT = jun.furuse@gmail.com
 PACKAGE_NAME = camlimages
-PACKAGE_STRING = camlimages 3.2.0
+PACKAGE_STRING = camlimages 3.3.0
 PACKAGE_TARNAME = camlimages
-PACKAGE_VERSION = 3.2.0
+PACKAGE_VERSION = 3.3.0
 PATH_OCAMLFIND = /home/jun/.share/prefix/bin/ocamlfind
 PATH_RGB_TXT = none
 PATH_SEPARATOR = :
@@ -267,7 +267,7 @@ SUPPORT_PNG = true
 SUPPORT_PS = true
 SUPPORT_TIFF = true
 SUPPORT_XPM = true
-VERSION = 3.2.0
+VERSION = 3.3.0
 WORD_SIZE = 4
 XMKMF = 
 X_CFLAGS = 
@@ -293,7 +293,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = /home/jun/.share/projects/external/camlimages/install-sh
+install_sh = /home/jun/.share/projects/camlimages/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -302,7 +302,7 @@ mandir = ${datarootdir}/man
 mkdir_p = mkdir -p --
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /home/jun/.share/prefix
+prefix = /usr/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -605,7 +605,7 @@ camlimages.ml: $(top_srcdir)/config.status camlimages.ml.in
 		-e 's,@SUPPORT_PS\@,$(SUPPORT_PS),g' \
 		-e 's,@SUPPORT_XPM\@,$(SUPPORT_XPM),g' \
 		-e 's,@PATH_RGB_TXT\@,$(PATH_RGB_TXT),g' \
-		-e 's,@GS\@,$(GS),g' \
+		-e 's,@PATH_GS\@,$(GS),g' \
 		-e 's,@WORD_SIZE\@,$(WORD_SIZE),g' \
 		$(srcdir)/camlimages.ml.in > camlimages.ml.tmp
 	mv camlimages.ml.tmp camlimages.ml

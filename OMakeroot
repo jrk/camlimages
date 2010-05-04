@@ -1,45 +1,129 @@
-########################################################################
-# Permission is hereby granted, free of charge, to any person
-# obtaining a copy of this file, to deal in the File without
-# restriction, including without limitation the rights to use,
-# copy, modify, merge, publish, distribute, sublicense, and/or
-# sell copies of the File, and to permit persons to whom the
-# File is furnished to do so, subject to the following condition:
-#
-# THE FILE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE FILE OR
-# THE USE OR OTHER DEALINGS IN THE FILE.
-
-########################################################################
-# The standard OMakeroot file.
-# You will not normally need to modify this file.
-# By default, your changes should be placed in the
-# OMakefile in this directory.
-#
-# If you decide to modify this file, note that it uses exactly
-# the same syntax as the OMakefile.
-#
-
-#
-# Include the standard installed configuration files.
-# Any of these can be deleted if you are not using them,
-# but you probably want to keep the Common file.
-#
 open build/C
 open build/OCaml
 open build/LaTeX
 
-#
-# The command-line variables are defined *after* the
-# standard configuration has been loaded.
-#
 DefineCommandVars()
 
-#
-# Include the OMakefile in this directory.
-#
+######################################################################## tools
+
+USE_OCAMLFIND = true
+
+if $(not $(OCAMLFIND_EXISTS))
+   eprintln(This project requires ocamlfind, but is was not found.)
+   eprintln(You need to install ocamlfind and run "omake --configure".)
+   exit 1
+
+##################################################################### configure
+
+open configure/Configure
+
+Check_header(header) =
+  ConfMsgChecking($(header))
+  ConfMsgFound($(CheckCHeader $(header)))
+
+Check_library(lib, func) =
+  ConfMsgChecking($(func) in -l$(lib))
+  ConfMsgFound($(CheckCLib $(lib), $(func)))
+
+global.BUILDING_LIBS=
+global.BUILDING_LDFLAGS=
+
+Check_header_library(lib, header, func) =
+  # We cannot use the same variable names and $(and ...).
+  # It fails saying Self-referential variable.
+  # Dunno what it means but probably is due to some object magic
+  export
+  if $(Check_header $(header)) 
+    export
+    if $(Check_library $(lib), $(func))
+      BUILDING_LIBS=$(BUILDING_LIBS) $(lib)
+      BUILDING_LDFLAGS=$(BUILDING_LDFLAGS) -l$(lib)
+      export
+      true
+    else
+      False
+  else False
+
+Check_ocamlfind_package(package) = 
+  ConfMsgChecking($(package))
+  ConfMsgFound($(shell-success ocamlfind query $(package)))
+
+Check_pkg_config(package, option) =
+  ConfMsgChecking(Freetype)
+  ConfMsgFound($(shell-success $(package)-config $(option)))
+
+# export $(WHERE)
+Check_prog_in_path(prog) =
+   ConfMsgChecking(for $(prog))
+   WHERE = $(where $(prog))
+   export WHERE
+   if $(WHERE)
+      ConfMsgResult(found $(nth 0, $(WHERE)))
+      return true
+   else
+      ConfMsgResult(FAILED - no $(prog) found)
+      return false
+
+# export $(WHERE)
+Check_file_in_path(path, file) =
+  ConfMsgChecking(for $(file))
+  WHERE = $(find-in-path-optional $(path), $(file))
+  export WHERE
+  if $(WHERE)
+    ConfMsgResult(found $(nth 0, $(WHERE)))
+    return true
+  else
+    ConfMsgResult(FAILED - no $(file) found)
+    return false
+
+# Return the size of word in bytes. Uses omake's arithmetic which depends
+# on OCaml's int
+Word_size() =
+  if $(lt $(add $(int 1073741823) $(int 1)), $(int 0))
+    value 4
+  else
+    value 8
+
+#################################################################### build rule
+
+# annot, spot, spit files
+%.annot %.spot: %.ml %.cmi
+	$(OCamlC) -c $<
+
+%.spit: %.mli 
+	$(OCamlC) -c $<
+
+# of course it only works with unix
+OCamlMkLibC(name, files) =
+  protected.COBJS=$(addsuffix .o, $(files))
+  dll$(name).so lib$(name).a: $(COBJS)
+    $(OCAMLMKLIB) -o $(name) $(LDFLAGS) $(COBJS)
+  return $(array dll$(name).so, lib$(name).a)
+
+################################################################ config replace
+
+ConfReplaceAt(file)=
+  $(file): $(file).in
+    section: # I dunno but section is required
+      stdout = $(fopen $(file), w)
+      fsubst($(file).in)
+      case $"@\([A-Z0-9_]+\)@" g
+        getvar($1)
+      close($(stdout))
+
+ConfReplaceConfigH(file)=
+  $(file): $(file).in
+    section: # I dunno but section is required
+      stdout = $(fopen $(file), w)
+      fsubst($(file).in)
+      case $"#undef \([A-Z_0-9]+\)" g
+        try
+          v=$(getvar $1)
+          value $"#define $1 $(v)"
+        default
+          value $"/* undef $1 */"
+      close($(stdout))
+
+###############################################################################
+
 .SUBDIRS: .

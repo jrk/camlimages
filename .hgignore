@@ -1,8 +1,17 @@
 .*\.cm[a-z]+$
 .*~$
 \.(sp[io]t|annot|o|cm[a-z]+|orig|omc|lock|a|so)$
+\.(byt|opt)$
 \.omakedb$
+\.depend$
 CVS/.*
 autom4te\.cache/.*
 \.\#
 ^missing$
+stamp-h1$
+config\.status$
+config\.h$
+
+src/camlimages\.ml$
+src/META$
+

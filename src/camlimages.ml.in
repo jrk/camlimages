@@ -27,7 +27,7 @@ let lib_xpm = @SUPPORT_XPM@;;
 
 (* External files *)
 let path_rgb_txt = "@PATH_RGB_TXT@";;
-let path_gs = "@GS@";;
+let path_gs = "@PATH_GS@";;
 
 (* They are written in ML, so always supported *)
 let lib_ppm = true;;

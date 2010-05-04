@@ -1,20 +1,97 @@
-open configure/Configure
+VERSION=3.3.0
 
-Check_header(header) =
-  ConfMsgChecking($(header))
-  ConfMsgFound($(CheckCHeader $(header)))
+# Specify non standard include directories
+INCLUDES[]=
+  /usr/include/X11
+  /usr/local/include
 
-Check_library(lib, func) =
-  ConfMsgChecking($(func) in -l$(lib))
-  ConfMsgFound($(CheckCLib $(lib), $(func)))
+# Specify non standard library directories
+LDFLAGS[]=
 
-Check_header_library(lib, header, func) =
-  # We cannot use the same variable names and $(and ...).
-  # It fails saying Self-referential variable.
-  # Dunno what it means but probably is due to some object magic
-  if $(Check_header $(header)) 
-    Check_library ($(lib), $(func)) 
-  else False
+# Specify directories where X's rgb.txt can be found
+PATH_RGB_TXT[]=
+  /etc/X11/rgb.txt
+  /usr/share/X11
 
-res = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
-println(hoge $(res))
+OCAMLMKLIB=ocamlmklib
+OCAMLMKLIB_EXISTS = $(CheckProg $(OCAMLMKLIB))
+if $(not $(OCAMLMKLIB_EXISTS))
+   eprintln(This project requires ocamlmklib, but is was not found.)
+   exit 1
+
+BYTE_ENABLED=1
+NATIVE_ENABLED=1
+
+.STATIC:
+  CFLAGS = $(addprefix -I , $(INCLUDES))
+
+  WORD_SIZE = $(Word_size)
+
+  HAVE_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
+  HAVE_Z = $(Check_header_library z, zlib.h, zlibVersion)
+  HAVE_PNG = $(Check_header_library png, png.h, png_create_read_struct)
+  HAVE_JPEG = $(Check_header_library jpeg, jpeglib.h, jpeg_read_header)
+  HAVE_TIFF = $(Check_header_library tiff, tiff.h, TIFFOpen)
+
+  SUPPORT_GIF = $(HAVE_GIF)
+  SUPPORT_PNG = $(and $(HAVE_Z) $(HAVE_PNG))
+  SUPPORT_JPEG = $(HAVE_JPEG)
+  SUPPORT_TIFF = $(and $(HAVE_Z) $(HAVE_JPEG) $(HAVE_TIFF))
+
+  SUPPORT_LABLGTK2 = $(Check_ocamlfind_package lablgtk2)
+  SUPPORT_XPM = $(Check_header_library Xpm, xpm.h, XpmReadFileToXpmImage)
+
+  SUPPORT_FREETYPE = $(Check_prog_in_path freetype-config)
+  PATH_FREETYPE_CONFIG = $(WHERE)
+  if $(SUPPORT_FREETYPE)
+    CFLAGS= $(CFLAGS) $(shell freetype-config --cflags)
+    global.BUILDING_LDFLAGS= $(BUILDING_LDFLAGS) $(shell freetype-config --libs)
+    export # for CFLAGS
+
+  SUPPORT_PS = $(Check_prog_in_path gs)
+  PATH_GS = $(WHERE)
+
+  SUPPORT_RGB_TXT = $(Check_file_in_path $(PATH_RGB_TXT), rgb.txt)
+  PATH_RGB_TXT = $(WHERE)
+
+  # LIBS=$(BUILDING_LIBS)
+  LDFLAGS=$(BUILDING_LDFLAGS)
+
+  # for src/META
+  PACKAGE_VERSION=$(VERSION)
+  REQUIRES=unix
+  if $(SUPPORT_LABLGTK2)
+    REQUIRES+=lablgtk2
+  PACKAGE_NAME=camlimages
+
+println(---)
+println(Configuring)
+println(Remove .omakedb if you think results are not up-to-date.)
+println(---)
+println(wordsize  $(WORD_SIZE))
+println(gif:      $(SUPPORT_GIF))
+println(png:	  $(SUPPORT_PNG))
+println(jpeg:	  $(SUPPORT_JPEG))
+println(tiff:	  $(SUPPORT_TIFF))
+println(xpm:	  $(SUPPORT_XPM))
+println(freetype: $(SUPPORT_FREETYPE) \($(PATH_FREETYPE_CONFIG)\))
+println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
+println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
+println(CFLAGS:   $(string $(CFLAGS)))
+println(LDFLAGS:  $(string $(LDFLAGS)))
+println(---)
+
+# for config.h
+CGeneratedFiles(config.h)
+section:
+  PACKAGE=\"camlimages\"
+  PACKAGE_BUGREPORT=\"jun.furuse@gmail.com\"
+  PACKAGE_NAME=$(PACKAGE)
+  PACKAGE_STRING=\"camlimages $(VERSION)\"
+  PACKAGE_TARNAME=$(PACKAGE)
+  PACKAGE_VERSION=\"$(VERSION)\"
+  SIZEOF_LONG=$(WORD_SIZE)
+  VERSION=$(PACKAGE_VERSION)
+  ConfReplaceConfigH(config.h)
+
+.SUBDIRS: src
