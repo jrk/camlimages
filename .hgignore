@@ -10,8 +10,11 @@ autom4te\.cache/.*
 ^missing$
 stamp-h1$
 config\.status$
+config\.log$
 config\.h$
 
 src/camlimages\.ml$
 src/META$
+
+doc/eng\.html
 
