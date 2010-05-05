@@ -1,6 +1,7 @@
 3.3.0
-	* Using omake
 	* Stop supporting the autoconf non sense. (It might works though.)
+	* Instead of autoconf, using omake and ocamlfind
+	* Subpackages: no need to link codes for uninterested format.
 	* Stop supporting lablgtk1
 	* New bug reporter email address
 
