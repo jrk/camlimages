@@ -37,9 +37,9 @@ val unsafe_set : t -> int -> int -> elt -> unit;;
 val get : t -> int -> int -> elt;;
 val set : t -> int -> int -> elt -> unit;;
 
-val get_image : [> `drawable ] Gobject.obj -> x:int -> y:int ->
-                   width:int -> height:int -> t;;
-(** Same as Gdk.Image.get, but with size info *)
+val get_image : [>`drawable] Gobject.obj -> x:int -> y:int -> 
+                   width:int -> height:int -> t
+(* Same as Gdk.Image.get, but with size info *)
 
 val of_image : Gdk.visual -> (float -> unit) option -> Images.t -> t;;
 

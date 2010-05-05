@@ -2,6 +2,8 @@
 (*                                                                     *)
 (*                           Objective Caml                            *)
 (*                                                                     *)
+(*            François Pessaux, projet Cristal, INRIA Rocquencourt     *)
+(*            Pierre Weis, projet Cristal, INRIA Rocquencourt          *)
 (*            Jun Furuse, projet Cristal, INRIA Rocquencourt           *)
 (*                                                                     *)
 (*  Copyright 1999-2004,                                               *)
@@ -10,30 +12,30 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: oXimage.mli,v 1.1 2007/01/18 10:29:57 rousse Exp $*)
+(* $Id: oXimage2.mli,v 1.1 2007/01/18 10:29:57 rousse Exp $*)
 
-open Ximage;;
+open Ximage2;;
 
-class ximage : Ximage.t -> object
+class ximage : Ximage2.t -> object
   method width : int
   method height : int
-  method unsafe_get : int -> int -> Ximage.elt 
-  method unsafe_set : int -> int -> Ximage.elt -> unit
-  method get : int -> int -> Ximage.elt 
-  method set : int -> int -> Ximage.elt -> unit
+  method unsafe_get : int -> int -> Ximage2.elt
+  method unsafe_set : int -> int -> Ximage2.elt -> unit
+  method get : int -> int -> Ximage2.elt
+  method set : int -> int -> Ximage2.elt -> unit
   method data : Gdk.image
   method destroy : unit
-end
+end;;
 
 val create :
-  kind:Gdk.Image.image_type -> visual:Gdk.visual -> 
-    width: int -> height: int -> ximage
-val get_image : [> `drawable] Gobject.obj -> 
-  x:int -> y:int -> width:int -> height:int -> ximage
+  kind:Gdk.Image.image_type -> visual:Gdk.visual ->
+    width: int -> height: int -> ximage;;
+val get_image : [>`drawable] Gobject.obj ->
+  x:int -> y:int -> width:int -> height:int -> ximage;;
 val of_image :
-  Gdk.visual -> (float -> unit) option -> OImages.oimage -> ximage
+  Gdk.visual -> (float -> unit) option -> OImages.oimage -> ximage;;
 
-val mask_of_image : Gdk.window -> OImages.oimage -> Gdk.bitmap option
+val mask_of_image : Gdk.window -> OImages.oimage -> Gdk.bitmap option;;
 
 val pixmap_of_image :
-  Gdk.window -> (float -> unit) option -> OImages.oimage -> GDraw.pixmap
+  Gdk.window -> (float -> unit) option -> OImages.oimage -> GDraw.pixmap;;

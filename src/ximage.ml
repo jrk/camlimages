@@ -10,10 +10,9 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: ximage.ml,v 1.1 2007/01/18 10:29:57 rousse Exp $*)
+(* $Id: ximage2.ml,v 1.5 2009/07/04 03:39:28 furuse Exp $*)
 
 open Images;;
-
 type elt = int;; (* must be int32, but lablgtk uses int *)
 
 type t = {
@@ -72,24 +71,20 @@ let of_image visual progress img =
     | Some f -> f v
     | None -> () in
   let put_rgb ximg x y rgb =
-    Gdk.Image.put_pixel ximg.data ~x ~y ~pixel:(quick_color_create rgb) in
-(*
-  let put_rgb24 ximg img x y =
-    let data,pos = Rgb24.unsafe_get_raw img x y in
-    Gdk.Image.put_pixel ximg.data ~x ~y
-      ~pixel:(color_conversion data pos) in
-*)
+    Gdk.Image.put_pixel ximg.data ~x ~y ~pixel:(quick_color_create rgb) 
+  in
   match img with
   | Rgb24 t ->
-    let width = t.Rgb24.width in
-    let height = t.Rgb24.height in
-    let ximg = create ~kind: `FASTEST ~visual ~width ~height in
-    let f_height = float height in
-    for y = 0 to height - 1 do
-      for x = 0 to width - 1 do put_rgb ximg x y (Rgb24.unsafe_get t x y) done;
-      prog  (float (y + 1) /. f_height)
-    done;
-    ximg
+      let width = t.Rgb24.width in
+      let height = t.Rgb24.height in
+      let ximg = create ~kind: `FASTEST ~visual ~width ~height in
+      let f_height = float height in
+      for y = 0 to height - 1 do
+	for x = 0 to width - 1 do 
+	  put_rgb ximg x y (Rgb24.unsafe_get t x y) done;
+	prog  (float (y + 1) /. f_height)
+      done;
+      ximg
 
   | Rgba32 t -> (* ignore alpha *)
     let width = t.Rgba32.width in
@@ -113,7 +108,7 @@ let of_image visual progress img =
     let xcmap = Array.map quick_color_create cmap in
     for y = 0 to height - 1 do
       for x = 0 to width - 1 do
-        Gdk.Image.put_pixel ximg.data x y xcmap.(Index8.unsafe_get t x y)
+        Gdk.Image.put_pixel ximg.data ~x ~y ~pixel:xcmap.(Index8.unsafe_get t x y)
       done;
       prog (float (y + 1) /. f_height)
     done;
@@ -128,7 +123,7 @@ let of_image visual progress img =
     let xcmap = Array.map quick_color_create cmap in
     for y = 0 to height - 1 do
       for x = 0 to width - 1 do
-        Gdk.Image.put_pixel ximg.data x y xcmap.(Index16.unsafe_get t x y)
+        Gdk.Image.put_pixel ximg.data ~x ~y ~pixel:xcmap.(Index16.unsafe_get t x y)
       done;
       prog (float (y + 1) /. f_height)
     done;
@@ -206,3 +201,4 @@ let pixmap_of_image win progress img =
   let msk = mask_of_image win img in
   let pixmap = new GDraw.pixmap ?mask: msk (pixmap_of win ximage) in
   pixmap;;
+
