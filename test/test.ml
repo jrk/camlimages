@@ -156,6 +156,7 @@ let treat_image name =
       if not (go_on ()) then raise Exit
       end;
   with
+  | Wrong_file_type -> prerr_endline "file format detection failed"
   | Failure s -> prerr_endline s;;
 
 let main () =

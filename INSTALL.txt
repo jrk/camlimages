@@ -6,9 +6,10 @@ This library is reliable but still under development.
 
  To install CamlImages library, you need the following softwares:
 
-        * ocaml 3.08 or higher
-        * GNU make
-	* automake (1.7.9 does not work. 1.9.6 works)
+        * ocaml 3.11 or higher
+	* findlib (aka ocamlfind, 
+	  	   http://www.camlcity.org/archive/programming/findlib.html)
+        * omake (http://omake.metaprl.org/index.html)
 
 and that is all. But note that this is the minimum requirement: you
 can read/write BMP or PXM (PPM, PGM, PBM) image formats but no other
@@ -46,13 +47,14 @@ install the corresponding external libraries:
         * ghostscript for PS format
                 See http://www.ghostscript.com/
 
-Additionaly, optional support for either lablgtk and lablgtk2 is provided, but
-not both at once, as they use conflicting symbols:
-
-        * lablgtk, an Objective Caml interface to gtk+
+        * lablgtk2, an Objective Caml interface to gtk+
                 http://wwwfun.kurims.kyoto-u.ac.jp/soft/olabl/lablgtk.html
 
-*** Installation procedure
+*** OLD installation procedure by automake
+
+ * GNU make
+ * automake (1.7.9 does not work. 1.9.6 works)
+
  Generating build scripts
  ------------------------
   This is only needed if you're using CVS version directly.

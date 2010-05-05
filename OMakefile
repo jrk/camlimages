@@ -1,3 +1,17 @@
+#*********************************************************************#
+#                                                                     #
+#                          Caml Images                                #
+#                                                                     #
+#            Fran輟is Pessaux, projet Cristal, INRIA Rocquencourt     #
+#            Pierre Weis, projet Cristal, INRIA Rocquencourt          #
+#            Jun Furuse, projet Cristal, INRIA Rocquencourt           #
+#                                                                     #
+#  Copyright 1999-2004,                                               #
+#  Institut National de Recherche en Informatique et en Automatique.  #
+#  Distributed only by permission.                                    #
+#                                                                     #
+#*********************************************************************#
+
 VERSION=3.3.0
 
 # Specify non standard include directories
@@ -77,6 +91,7 @@ println(xpm:	  $(SUPPORT_XPM))
 println(freetype: $(SUPPORT_FREETYPE) \($(PATH_FREETYPE_CONFIG)\))
 println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
 println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
+println(lablgtk2: $(SUPPORT_LABLGTK2))
 println(CFLAGS:   $(string $(CFLAGS)))
 println(LDFLAGS:  $(string $(LDFLAGS)))
 println(---)
@@ -94,4 +109,4 @@ section:
   VERSION=$(PACKAGE_VERSION)
   ConfReplaceConfigH(config.h)
 
-.SUBDIRS: src
+.SUBDIRS: src test examples

@@ -1,3 +1,17 @@
+#*********************************************************************#
+#                                                                     #
+#                          Caml Images                                #
+#                                                                     #
+#            Fran輟is Pessaux, projet Cristal, INRIA Rocquencourt     #
+#            Pierre Weis, projet Cristal, INRIA Rocquencourt          #
+#            Jun Furuse, projet Cristal, INRIA Rocquencourt           #
+#                                                                     #
+#  Copyright 1999-2004,                                               #
+#  Institut National de Recherche en Informatique et en Automatique.  #
+#  Distributed only by permission.                                    #
+#                                                                     #
+#*********************************************************************#
+
 open build/C
 open build/OCaml
 open build/LaTeX
@@ -12,6 +26,8 @@ if $(not $(OCAMLFIND_EXISTS))
    eprintln(This project requires ocamlfind, but is was not found.)
    eprintln(You need to install ocamlfind and run "omake --configure".)
    exit 1
+
+OCAML_WHERE = $(shell ocamlc -where)
 
 ##################################################################### configure
 
@@ -123,6 +139,25 @@ ConfReplaceConfigH(file)=
         default
           value $"/* undef $1 */"
       close($(stdout))
+
+##################################################################### directory
+
+ROOT = $(dir .)
+SRCDIR = $(ROOT)/src
+
+################################################################### local build
+
+# useful for BuildWithCamlimages
+ALL_FILE_FORMATS= gif jpeg png tiff xpm ps
+
+BuildWithCamlimages(subs) =
+  # no -custom
+  OCAML_BYTE_LINK_FLAGS=
+  OCAMLINCLUDES += $(SRCDIR)
+  subs=core $(subs)
+  OCAML_LIBS+= $(addprefix $(SRCDIR)/camlimages_, $(subs))
+  OCAML_BYTE_LINK_FLAGS+=-dllpath $(SRCDIR)
+  export
 
 ###############################################################################
 

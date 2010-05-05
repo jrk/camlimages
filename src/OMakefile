@@ -1,95 +1,174 @@
-.PHONY: all clean clibrary library
+#*********************************************************************#
+#                                                                     #
+#                          Caml Images                                #
+#                                                                     #
+#            Fran輟is Pessaux, projet Cristal, INRIA Rocquencourt     #
+#            Pierre Weis, projet Cristal, INRIA Rocquencourt          #
+#            Jun Furuse, projet Cristal, INRIA Rocquencourt           #
+#                                                                     #
+#  Copyright 1999-2004,                                               #
+#  Institut National de Recherche en Informatique et en Automatique.  #
+#  Distributed only by permission.                                    #
+#                                                                     #
+#*********************************************************************#
 
-.DEFAULT: clibrary library META
+.PHONY: all clean libraries install
 
-LIBRARY_NAME=camlimages
+.DEFAULT: all
 
-CFILES[]=
+LIBRARY_PREFIX=camlimages
+
+####################################################################### C FILES
+
+CFILES_freetype[]=
   ftintf
+
+CFILES_gif[]=
   gifread
   gifwrite
+
+CFILES_jpeg[]=
   jpegread
   jpegwrite
+
+CFILES_png[]=
   pngread
   pngwrite
+
+CFILES_tiff[]=
   tiffread
   tiffwrite
+
+CFILES_xpm[]=
   xpmread
   xpmwrite
 
-FILES[]=
+###################################################################### ML FILES
+
+FILES_core[]=
   bitmap
   blend
-  bmp
   camlimages
   cmyk32
   color
   colorhist
-  freetype
-  ftlow
-  fttext
   genimage
   geometry
-  gif
-  graphic_image
-  imagegdk
   images
   index16
   index8
   jis_table
   jis_unicode
-  jpeg
   mstring
-  oBmp
   oColor
-  oFreetype
-  oGif
-  oGraphic
   oImages
-  oJpeg
-  oPng
-  oPpm
-  oPs
-  oTiff
-  oXimage
-  oXimage2
-  oXpm
-  oXvthumb
-  png
-  ppm
-  ps
   reduce
   region
   rgb24
   rgba32
-  tiff
   tmpfile
   units
+  bmp
+  oBmp
+  ppm
+  oPpm
+  xvthumb
+  oXvthumb
+
+FILES_gif[]=
+  gif
+  oGif
+
+FILES_jpeg[]=
+  jpeg
+  oJpeg
+
+FILES_png[]=
+  png
+  oPng
+
+FILES_tiff[]=
+  tiff
+  oTiff
+
+FILES_freetype[]=
+  freetype
+  ftlow
+  fttext
+  oFreetype
+
+FILES_xpm[]=
+  xpm
+  oXpm
+
+FILES_ps[]=
+  ps
+  oPs
+
+FILES_graphics[]=
+  graphic_image
+  oGraphic
+
+FILES_lablgtk2[]=
+  imagegdk
+  oXimage
+  oXimage2
   ximage
   ximage2
-  xpm
-  xvthumb
 
-OCAMLPACKS[]=
+###################################################################### PACKAGES
+
+PACKS_graphics[]=
+  graphics
+
+PACKS_lablgtk2[]=
   lablgtk2
 
-CFLAGS+= -fPIC -I $(shell ocamlc -where)
-clibrary: $(OCamlMkLibC $(LIBRARY_NAME), $(CFILES))
+OCAMLPACKS[]=
+  graphics lablgtk2
 
-$(LIBRARY_NAME).cma $(LIBRARY_NAME).cmxa: clibrary
+################################################################## C BUILD RULE
 
-# OCAML_{BYTE,NATIVE}_LINK_FLAGS do not work for OCamlLibrary
-# Bit dirty workaround
-OCAMLCFLAGS+=-dllib -lcamlimages
-OCAMLOPTFLAGS+=-cclib -lcamlimages
-# use mapprefix instead of addprefix, otherwise "-cclib -lgif"
-# is considered one option.
-OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(LDFLAGS))
+CFLAGS+= -fPIC -I $(OCAML_WHERE)
 
-library: $(OCamlLibrary $(LIBRARY_NAME), $(FILES))
+MakeLibC(name) =
+  OCamlMkLibC($(LIBRARY_PREFIX)_$(name), $(getvar CFILES_$(name)))
+
+################################################################# ML BUILD RULE
+
+MakeLibOCaml(name) =
+
+  OCAMLPACKS= 
+    try
+      getvar(PACKS_$(name))
+    default
+      array() # default is empty
+
+  try
+    getvar(CFILES_$(name))
+    # CFILES_$(name) exists: library with C
+    $(LIBRARY_PREFIX)_$(name).cma $(LIBRARY_PREFIX)_$(name).cmxa: $(MakeLibC $(name))
+    # OCAML_{BYTE,NATIVE}_LINK_FLAGS do not work for OCamlLibrary
+    # Bit dirty workaround
+    OCAMLCFLAGS+=-dllib -l$(LIBRARY_PREFIX)_$(name)
+    OCAMLOPTFLAGS+=-cclib -l$(LIBRARY_PREFIX)_$(name)
+    # use mapprefix instead of addprefix, otherwise "-cclib -lgif"
+    # is considered one option.
+    OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(LDFLAGS))
+    OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
+  default
+    # pure ocaml library
+    OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(LDFLAGS))
+    OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
+
+LIBRARIES=
+  foreach(i, $(array core gif jpeg png tiff freetype xpm ps graphics lablgtk2))
+    MakeLibOCaml($(i))
+
+libraries: $(LIBRARIES)
 
 clean:
-  rm -f $(LIBRARY_NAME).spot
+  rm -f $(LIBRARY_PREFIX).spot
   rm -f $(filter-proper-targets $(ls R, .))
 
 LocalOCamlGeneratedFiles(camlimages.ml)
@@ -97,10 +176,16 @@ ConfReplaceAt(camlimages.ml)
 
 ConfReplaceAt(META)
 
-#camlimages.ml: camlimages.ml.in
-#  section: # I dunno but section is required
-#    stdout = $(fopen camlimages.ml, w)
-#    fsubst(camlimages.ml.in)
-#    case $"@\([A-Z0-9_]+\)@" g
-#      getvar($1)
-#    close($(stdout))
+all: libraries META
+
+install: all
+  $(OCAMLFIND) install $(LIBRARY_PREFIX) \
+    META \
+    $(glob i, *.mli) \
+    $(glob i, *.cmi) \
+    $(glob i, *.spot) \
+    $(glob i, *.spit) \
+    $(glob i, *.cma) \
+    $(glob i, *.cmxa) \
+    $(glob i, *.a)
+  cp $(glob i, *.so) $(OCAML_WHERE)/stublibs

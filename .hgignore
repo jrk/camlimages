@@ -1,10 +1,11 @@
 .*\.cm[a-z]+$
 .*~$
 \.(sp[io]t|annot|o|cm[a-z]+|orig|omc|lock|a|so)$
-\.(byt|opt)$
+\.(byt|opt|run)$
 \.omakedb$
 \.depend$
 CVS/.*
+
 autom4te\.cache/.*
 \.\#
 ^missing$
@@ -18,3 +19,7 @@ src/META$
 
 doc/eng\.html
 
+test/out\.image$
+test/test$
+
+examples/converter/converter$

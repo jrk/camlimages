@@ -1,6 +1,11 @@
 3.3.0
-	* Stop supporting the autoconf non sense and use omake.
+	* Using omake
+	* Stop supporting the autoconf non sense. (It might works though.)
+	* Stop supporting lablgtk1
 	* New bug reporter email address
+
+3.2.0
+	* Someone has misnamed and distributed 3.0.2 as 3.2.0.
 
 3.0.2
         * O'Caml 3.11 port.

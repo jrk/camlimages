@@ -1,0 +1,32 @@
+#*********************************************************************#
+#                                                                     #
+#                          Caml Images                                #
+#                                                                     #
+#            Fran輟is Pessaux, projet Cristal, INRIA Rocquencourt     #
+#            Pierre Weis, projet Cristal, INRIA Rocquencourt          #
+#            Jun Furuse, projet Cristal, INRIA Rocquencourt           #
+#                                                                     #
+#  Copyright 1999-2004,                                               #
+#  Institut National de Recherche en Informatique et en Automatique.  #
+#  Distributed only by permission.                                    #
+#                                                                     #
+#*********************************************************************#
+
+#(* $Id: Makefile.am,v 1.6 2007/02/20 21:19:22 rousse Exp $ *)
+
+.PHONY: all
+
+FILES[]=
+  test
+
+OCAMLPACKS[]=
+  graphics
+
+SUB_PACKAGES[]= $(ALL_FILE_FORMATS) graphics freetype
+
+BuildWithCamlimages($(SUB_PACKAGES))
+
+.DEFAULT: $(OCamlProgram test, $(FILES))
+
+clean:
+  rm -f out.image
