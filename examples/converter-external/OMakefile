@@ -1,0 +1,42 @@
+#*********************************************************************#
+#                                                                     #
+#                          Caml Images                                #
+#                                                                     #
+#            Fran輟is Pessaux, projet Cristal, INRIA Rocquencourt     #
+#            Pierre Weis, projet Cristal, INRIA Rocquencourt          #
+#            Jun Furuse, projet Cristal, INRIA Rocquencourt           #
+#                                                                     #
+#  Copyright 1999-2004,                                               #
+#  Institut National de Recherche en Informatique et en Automatique.  #
+#  Distributed only by permission.                                    #
+#                                                                     #
+#*********************************************************************#
+
+#(* $Id: Makefile.am,v 1.6 2007/02/20 21:19:22 rousse Exp $ *)
+
+.PHONY: all clean
+
+BYTE_ENABLED = true
+NATIVE_ENABLED = true
+
+USE_OCAMLFIND = true
+
+if $(not $(OCAMLFIND_EXISTS))
+   eprintln(This project requires ocamlfind, but is was not found.)
+   eprintln(You need to install ocamlfind and run "omake --configure".)
+   exit 1
+
+FILES[]=
+  converter
+
+# If you are only interested in some parts of image formats,
+# for example, gif and jpeg, say camlimages.gif camlimages.jpeg
+# instead of camlimages.all_formats.
+
+OCAMLPACKS[]=
+  camlimages.all_formats
+
+.DEFAULT: $(OCamlProgram converter, $(FILES))
+
+clean:
+  rm -f $(filter-proper-targets $(ls R, .))
