@@ -14,19 +14,18 @@
 
 #(* $Id: Makefile.am,v 1.6 2007/02/20 21:19:22 rousse Exp $ *)
 
-.PHONY: all
+.PHONY: all clean
 
 FILES[]=
   converter
 
 OCAMLPACKS[]=
-  lablgtk2
 
-SUB_PACKAGES= $(ALL_FILE_FORMATS) lablgtk2
+SUB_PACKAGES= $(ALL_FILE_FORMATS)
 
 BuildWithCamlimages($(SUB_PACKAGES))
 
 .DEFAULT: $(OCamlProgram converter, $(FILES))
 
 clean:
-  rm -f out.image
+  rm -f $(filter-proper-targets $(ls R, .))
