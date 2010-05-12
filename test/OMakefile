@@ -12,9 +12,9 @@
 #                                                                     #
 #*********************************************************************#
 
-#(* $Id: Makefile.am,v 1.6 2007/02/20 21:19:22 rousse Exp $ *)
+#(* $Id: OMakefile,v 1.1.2.1 2010/05/13 13:14:47 furuse Exp $ *)
 
-.PHONY: all
+.PHONY: all clean
 
 FILES[]=
   test
@@ -29,4 +29,5 @@ BuildWithCamlimages($(SUB_PACKAGES))
 .DEFAULT: $(OCamlProgram test, $(FILES))
 
 clean:
+  rm -f $(filter-proper-targets $(ls R, .))
   rm -f out.image

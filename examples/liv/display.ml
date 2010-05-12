@@ -30,7 +30,7 @@ let add_size w h =
     (fun x st ->
        match x with
        | `SIZE _ -> st
-       | _ -> x :: st)
+       (* | _ -> x :: st *))
     !current_filters [`SIZE (w,h,`NOASPECT)];;
 
 let forward_redisplay = ref (fun _ -> ());;

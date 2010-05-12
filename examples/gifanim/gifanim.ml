@@ -58,7 +58,7 @@ let rec disp_frame () =
   begin match mask with
   | Some bmp ->
       Gdk.GC.set_clip_origin gc ~x: frame.frame_left ~y: frame.frame_top;
-      Gdk.GC.set_clip_mask gc (Obj.magic bmp : [`bitmap] Gdk.drawable)
+      Gdk.GC.set_clip_mask gc bmp
   | None ->
       Gdk.GC.set_clip_origin gc ~x: 0 ~y: 0;
       Gdk.GC.set_clip_rectangle gc rect

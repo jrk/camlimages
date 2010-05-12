@@ -329,7 +329,7 @@ let _ =
 	  incr image_id;
 	  !image_id, im
     in
-    Cache.add cache file (id, image);
+    Cache.add cache file (id, image) (fun _ -> ());
     
     prog#set_fraction 0.01;
     display id image !base_filters; (* this cause lots of gc *)
@@ -397,7 +397,7 @@ let _ =
       | _ -> ()
   in
 
-  let filter_toggle opt = 
+  let _filter_toggle opt = 
 	if List.mem opt !base_filters then
 	  base_filters :=
 	     List.fold_right (fun x st ->
@@ -419,7 +419,7 @@ let _ =
       end else !curpath
     in
 (*JPF*)
-    let xlevel, enhanced, checked = Jpf.get_flags f in
+    let _xlevel, _enhanced, _checked = Jpf.get_flags f in
 (*
     if enhanced then filter_toggle `ENHANCE;
 *)

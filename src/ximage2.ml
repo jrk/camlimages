@@ -10,7 +10,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: ximage2.ml,v 1.5 2009/07/04 03:39:28 furuse Exp $*)
+(* $Id: ximage2.ml,v 1.5.2.1 2010/05/13 13:14:47 furuse Exp $*)
 
 (* This module is for backward compatibility *)
 include Ximage

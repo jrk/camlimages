@@ -12,7 +12,7 @@
 #                                                                     #
 #*********************************************************************#
 
-#(* $Id: Makefile.am,v 1.34 2009/07/04 03:38:36 furuse Exp $ *)
+#(* $Id: Makefile.am,v 1.34.2.1 2010/05/13 13:14:47 furuse Exp $ *)
 
 ocamlsitelibdir = $(OCAMLSITELIBDIR)
 ocamlsitelib_DATA = camlimages.a \

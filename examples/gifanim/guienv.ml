@@ -19,7 +19,7 @@ open GMain;;
 GtkMain.Main.init ();;
 
 let window = GWindow.window ~title: "gifanim"
-    ~auto_shrink: true 
+(*    ~auto_shrink: true  *)
     ~allow_shrink: true 
     ~allow_grow: true ();;
 

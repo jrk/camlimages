@@ -1,1 +1,15 @@
+.PHONY: clean
+
+BuildExample(name, modules, packages) = 
+  .PHONY: all clean
+
+  BuildWithCamlimages($(packages))
+
+  .DEFAULT: $(OCamlProgram $(name), $(modules))
+
+  clean:
+    rm -f $(filter-proper-targets $(ls R, .))
+
+  export
+
 .SUBDIRS: edgedetect liv normalize ttfimg converter gifanim resize crop imgstat monochrome tiffps

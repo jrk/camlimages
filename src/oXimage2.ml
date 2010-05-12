@@ -12,7 +12,7 @@
 (*                                                                     *)
 (***********************************************************************)
 
-(* $Id: oXimage2.ml,v 1.2 2008/06/16 22:35:42 furuse Exp $*)
+(* $Id: oXimage2.ml,v 1.2.2.1 2010/05/13 13:14:47 furuse Exp $*)
 
 (* This module is for backward compatibility *)
 include OXimage
