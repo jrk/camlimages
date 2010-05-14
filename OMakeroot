@@ -160,7 +160,7 @@ SRCDIR = $(ROOT)/src
 ALL_FILE_FORMATS= gif jpeg png tiff xpm ps
 
 BuildWithCamlimages(subs) =
-  # no -custom
+  # the library is created with -dllib: no -custom required
   OCAML_BYTE_LINK_FLAGS=
   OCAMLINCLUDES += $(SRCDIR)
   subs=core $(subs)

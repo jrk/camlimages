@@ -187,5 +187,6 @@ install: all
     $(glob i, *.spit) \
     $(glob i, *.cma) \
     $(glob i, *.cmxa) \
-    $(glob i, *.a)
-  cp $(glob i, *.so) $(OCAML_WHERE)/stublibs
+    $(glob i, *.a) \
+    $(glob i, *.so)
+
