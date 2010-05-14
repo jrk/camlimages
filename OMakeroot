@@ -72,13 +72,17 @@ Check_pkg_config(package, option) =
 Check_prog_in_path(prog) =
    ConfMsgChecking(for $(prog))
    WHERE = $(where $(prog))
-   export WHERE
    if $(WHERE)
-      ConfMsgResult(found $(nth 0, $(WHERE)))
+      WHERE = $(nth 0, $(WHERE))
+      export WHERE
+      ConfMsgResult(found $(WHERE))
       return true
    else
+      WHERE = 
+      export WHERE
       ConfMsgResult(FAILED - no $(prog) found)
       return false
+   export WHERE
 
 # export $(WHERE)
 Check_file_in_path(path, file) =
@@ -86,11 +90,16 @@ Check_file_in_path(path, file) =
   WHERE = $(find-in-path-optional $(path), $(file))
   export WHERE
   if $(WHERE)
-    ConfMsgResult(found $(nth 0, $(WHERE)))
+    WHERE = $(nth 0, $(WHERE))
+    export WHERE
+    ConfMsgResult(found $(WHERE))
     return true
   else
+    WHERE =
+    export WHERE
     ConfMsgResult(FAILED - no $(file) found)
     return false
+  export WHERE
 
 # Return the size of word in bytes. Uses omake's arithmetic which depends
 # on OCaml's int
