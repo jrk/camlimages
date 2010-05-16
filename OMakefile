@@ -42,7 +42,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   WORD_SIZE = $(Word_size)
 
   LDFLAGS[]=
-  ALL_FILE_FORMATS[]=
+  FORMAT_SUBPACKAGES[]=
   SUBPACKAGES[]=
 
   # for src/META
@@ -57,7 +57,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
   if $(SUPPORT_GIF)
     LDFLAGS+=-lgif
-    ALL_FILE_FORMATS+=gif
+    FORMAT_SUBPACKAGES+=gif
     SUBPACKAGES+=gif
     export
 
@@ -66,7 +66,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_PNG = $(and $(HAVE_Z) $(HAVE_PNG))
   if $(SUPPORT_PNG)
     LDFLAGS+=-lpng -lz
-    ALL_FILE_FORMATS+=png
+    FORMAT_SUBPACKAGES+=png
     SUBPACKAGES+=png
     export
 
@@ -74,7 +74,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_JPEG = $(HAVE_JPEG)
   if $(SUPPORT_JPEG)
     LDFLAGS+=-ljpeg
-    ALL_FILE_FORMATS+=jpeg
+    FORMAT_SUBPACKAGES+=jpeg
     SUBPACKAGES+=jpeg
     export
 
@@ -82,7 +82,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_TIFF = $(and $(HAVE_Z) $(HAVE_JPEG) $(HAVE_TIFF))
   if $(SUPPORT_TIFF)
     LDFLAGS+=-ltiff
-    ALL_FILE_FORMATS+=tiff
+    FORMAT_SUBPACKAGES+=tiff
     SUBPACKAGES+=tiff
     export
 
@@ -90,7 +90,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_XPM = $(HAVE_XPM)
   if $(SUPPORT_XPM)
     LDFLAGS+=-lXpm
-    ALL_FILE_FORMATS+=xpm
+    FORMAT_SUBPACKAGES+=xpm
     SUBPACKAGES+=xpm
     export
 
@@ -113,7 +113,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_PS = $(Check_prog_in_path gs)
   PATH_GS = $(WHERE)
   if $(SUPPORT_PS)
-    ALL_FILE_FORMATS+=ps
+    FORMAT_SUBPACKAGES+=ps
     SUBPACKAGES+=ps
     export
 
@@ -145,7 +145,7 @@ println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
 println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
 println(lablgtk2: $(SUPPORT_LABLGTK2))
 println(--- Summary)
-println(formats:  $(string $(ALL_FILE_FORMATS)))
+println(formats:  $(string $(FORMAT_SUBPACKAGES)))
 println(subpackages:  $(string $(SUBPACKAGES)))
 println(CFLAGS:   $(string $(CFLAGS)))
 println(LDFLAGS:  $(string $(LDFLAGS)))

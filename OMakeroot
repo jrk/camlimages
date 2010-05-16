@@ -144,6 +144,9 @@ SRCDIR = $(ROOT)/src
 
 ################################################################### local build
 
+Subpackages_available(packs) =
+  sequence-forall(elem => $(mem elem, $(SUBPACKAGES)), $(packs))
+
 BuildWithCamlimages(subs) =
   # the library is created with -dllib: no -custom required
   OCAML_BYTE_LINK_FLAGS=

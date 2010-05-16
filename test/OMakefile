@@ -22,7 +22,7 @@ FILES[]=
 OCAMLPACKS[]=
   graphics
 
-SUB_PACKAGES[]= $(ALL_FILE_FORMATS) graphics freetype
+SUB_PACKAGES[]= $(FORMAT_SUBPACKAGES) graphics freetype
 
 BuildWithCamlimages($(SUB_PACKAGES))
 

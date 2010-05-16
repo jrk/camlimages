@@ -23,25 +23,43 @@ LIBRARY_PREFIX=camlimages
 CFILES_freetype[]=
   ftintf
 
+CFILES_freetype_na[]=
+  ftintf_na
+
 CFILES_gif[]=
   gifread
   gifwrite
+
+CFILES_gif_na[]=
+  gif_na
 
 CFILES_jpeg[]=
   jpegread
   jpegwrite
 
+CFILES_jpeg_na[]=
+  jpeg_na
+
 CFILES_png[]=
   pngread
   pngwrite
+
+CFILES_png_na[]=
+  png_na
 
 CFILES_tiff[]=
   tiffread
   tiffwrite
 
+CFILES_tiff_na[]=
+  tiff_na
+
 CFILES_xpm[]=
   xpmread
   xpmwrite
+
+CFILES_xpm_na[]=
+  xpm_na
 
 ###################################################################### ML FILES
 
@@ -132,7 +150,8 @@ OCAMLPACKS[]=
 CFLAGS+= -fPIC -I $(OCAML_WHERE)
 
 MakeLibC(name) =
-  OCamlMkLibC($(LIBRARY_PREFIX)_$(name), $(getvar CFILES_$(name)))
+  CFILES_VAR = $(if $(mem $(name), $(SUBPACKAGES)), CFILES_$(name), CFILES_$(name)_na)
+  OCamlMkLibC($(LIBRARY_PREFIX)_$(name), $(getvar $(CFILES_VAR)))
 
 ################################################################# ML BUILD RULE
 
@@ -162,7 +181,8 @@ MakeLibOCaml(name) =
     OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
 
 LIBRARIES=
-  foreach(i, $(SUBPACKAGES))
+  # CR jfurue: lablgtk2, freetype and graphics may not be buildable
+  foreach(i, core gif png jpeg tiff xpm ps lablgtk2 freetype graphics)
     MakeLibOCaml($(i))
 
 libraries: $(LIBRARIES)

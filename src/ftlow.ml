@@ -16,10 +16,6 @@
 
 type library
 
-external init : unit -> library = "init_FreeType";;
-
-external close : library -> unit = "done_FreeType";;
-
 type face;;
 
 type face_info = {
@@ -39,23 +35,7 @@ type face_info = {
     has_multiple_masters : bool;
   };;
 
-external new_face : library -> string -> int -> face = "new_Face";;
-external face_info : face -> face_info = "face_info";;
-external done_face : face -> unit = "done_Face";;
-
-external get_num_glyphs : face -> int = "get_num_glyphs";;
-
-external set_char_size :
-  face -> int -> int -> int -> int -> unit = "set_Char_Size";;
-
-external set_pixel_sizes : face -> int -> int -> unit = "set_Pixel_Sizes";;
-
 type charmap = { platform_id : int; encoding_id : int; };;
-
-external get_charmaps : face -> charmap list = "get_CharMaps";;
-external set_charmap : face -> charmap -> unit = "set_CharMap";;
-
-external get_char_index : face -> int -> int = "get_Char_Index";;
 
 type render_mode =
    | Render_Normal (* default *)
@@ -67,47 +47,12 @@ type load_flag =
 
 type flags = int;;
 
-let encode_flags flags =
-  let int_of_flag = function
-    | Load_no_scale -> 1
-    | Load_no_hinting -> 2 in
-  List.fold_left (fun v f -> v lor int_of_flag f) 0 flags;;
-
-external load_glyph_raw : face -> int -> flags -> int * int = "load_Glyph";;
-
-let load_glyph face code flags = load_glyph_raw face code (encode_flags flags);;
-
-external load_char_raw : face -> int -> flags -> int * int = "load_Char";;
-
-let load_char face code flags = load_char_raw face code (encode_flags flags);;
-
-external render_glyph_of_face :
-  face -> render_mode -> unit = "render_Glyph_of_Face";;
-
-external render_char_raw :
-  face -> int -> flags -> render_mode -> int * int = "render_Char";;
-
-let render_glyph face idx flags render_mode =
-  let adv = load_glyph face idx flags in
-  render_glyph_of_face face render_mode;
-  adv;;
-
-let render_char face code flags render_mode =
-  render_char_raw face code (encode_flags flags) render_mode;;
-
-external set_transform :
-  face -> (int * int * int * int) -> (int * int) -> unit = "set_Transform";;
-
 type bitmap_info = {
     bitmap_left : int;
     bitmap_top : int;
     bitmap_width : int;
     bitmap_height : int;
   };;
-
-external get_bitmap_info : face -> bitmap_info = "get_Bitmap_Info";;
-
-external read_bitmap : face -> int -> int -> int = "read_Bitmap";;
 
 (* glyph metrics *)
 type bbox = {
@@ -130,8 +75,6 @@ type glyph_metrics = {
     gm_vert : bearing_advance;
   };;
 
-external get_glyph_metrics : face -> glyph_metrics = "get_Glyph_Metrics";;
-
 (* size metrics *)
 type size_metrics = {
     x_ppem : int;
@@ -139,8 +82,6 @@ type size_metrics = {
     x_scale : int; (* 16.16 *)
     y_scale : int; (* 16.16 *)
   };;
-
-external get_size_metrics : face -> size_metrics = "get_Size_Metrics";;
 
 (* outline info *)
 type outline_tag = On_point | Off_point_conic | Off_point_cubic;;
@@ -153,5 +94,52 @@ type outline_contents = {
     contours : int array;
   };;
 
-external get_outline_contents :
-  face -> outline_contents = "get_Outline_Contents";;
+module C = struct
+  external init : unit -> library = "init_FreeType";;
+  external close : library -> unit = "done_FreeType";;
+  external new_face : library -> string -> int -> face = "new_Face";;
+  external face_info : face -> face_info = "face_info";;
+  external done_face : face -> unit = "done_Face";;
+  external get_num_glyphs : face -> int = "get_num_glyphs";;
+  external set_char_size :
+    face -> int -> int -> int -> int -> unit = "set_Char_Size";;
+  external set_pixel_sizes : face -> int -> int -> unit = "set_Pixel_Sizes";;
+  external get_charmaps : face -> charmap list = "get_CharMaps";;
+  external set_charmap : face -> charmap -> unit = "set_CharMap";;
+  external get_char_index : face -> int -> int = "get_Char_Index";;
+  external load_glyph_raw : face -> int -> flags -> int * int = "load_Glyph";;
+  external load_char_raw : face -> int -> flags -> int * int = "load_Char";;
+  external render_glyph_of_face :
+    face -> render_mode -> unit = "render_Glyph_of_Face";;
+  external render_char_raw :
+    face -> int -> flags -> render_mode -> int * int = "render_Char";;
+  external set_transform :
+    face -> (int * int * int * int) -> (int * int) -> unit = "set_Transform";;
+  external get_bitmap_info : face -> bitmap_info = "get_Bitmap_Info";;
+  external read_bitmap : face -> int -> int -> int = "read_Bitmap";;
+  external get_glyph_metrics : face -> glyph_metrics = "get_Glyph_Metrics";;
+  external get_size_metrics : face -> size_metrics = "get_Size_Metrics";;
+  external get_outline_contents :
+    face -> outline_contents = "get_Outline_Contents";;
+end
+
+include C
+
+let encode_flags flags =
+  let int_of_flag = function
+    | Load_no_scale -> 1
+    | Load_no_hinting -> 2 in
+  List.fold_left (fun v f -> v lor int_of_flag f) 0 flags;;
+
+let load_glyph face code flags = load_glyph_raw face code (encode_flags flags);;
+
+let load_char face code flags = load_char_raw face code (encode_flags flags);;
+
+let render_glyph face idx flags render_mode =
+  let adv = load_glyph face idx flags in
+  render_glyph_of_face face render_mode;
+  adv;;
+
+let render_char face code flags render_mode =
+  render_char_raw face code (encode_flags flags) render_mode;;
+

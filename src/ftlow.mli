@@ -19,10 +19,10 @@
 
 type library;;
 
-val init : unit -> library;;
-val close : library -> unit;;
+val init : unit -> library
+val close : library -> unit
 
-type face;;
+type face
 
 type face_info = {
     num_faces : int;
@@ -39,54 +39,54 @@ type face_info = {
     has_fast_glyphs : bool;
     has_glyph_names : bool;
     has_multiple_masters : bool;
-  };;
+  }
 
-val new_face : library -> string -> int -> face;;
-val face_info : face -> face_info;;
-val done_face : face -> unit;;
+val new_face : library -> string -> int -> face
+val face_info : face -> face_info
+val done_face : face -> unit
 
-val get_num_glyphs : face -> int;;
+val get_num_glyphs : face -> int
 
-val set_char_size : face -> int -> int -> int -> int -> unit;;
+val set_char_size : face -> int -> int -> int -> int -> unit
 
-val set_pixel_sizes : face -> int -> int -> unit;;
+val set_pixel_sizes : face -> int -> int -> unit
 
-type charmap = { platform_id : int; encoding_id : int; };;
-val get_charmaps : face -> charmap list;;
-val set_charmap : face -> charmap -> unit;;
+type charmap = { platform_id : int; encoding_id : int; }
+val get_charmaps : face -> charmap list
+val set_charmap : face -> charmap -> unit
 
-val get_char_index : face -> int -> int;;
+val get_char_index : face -> int -> int
 
 type render_mode =
    | Render_Normal (** default *)
-   | Render_Mono;;
+   | Render_Mono
 
 type load_flag =
    | Load_no_scale
-   | Load_no_hinting;;
+   | Load_no_hinting
 
-val load_glyph : face -> int -> load_flag list -> int * int;;
+val load_glyph : face -> int -> load_flag list -> int * int
 
-val load_char : face -> int -> load_flag list -> int * int;;
+val load_char : face -> int -> load_flag list -> int * int
 
-val render_glyph_of_face : face -> render_mode -> unit;;
+val render_glyph_of_face : face -> render_mode -> unit
 
-val render_glyph : face -> int -> load_flag list -> render_mode -> int * int;;
+val render_glyph : face -> int -> load_flag list -> render_mode -> int * int
 
-val render_char : face -> int -> load_flag list -> render_mode -> int * int;;
+val render_char : face -> int -> load_flag list -> render_mode -> int * int
 
-val set_transform : face -> (int * int * int * int) -> (int * int) -> unit;;
+val set_transform : face -> (int * int * int * int) -> (int * int) -> unit
 
 type bitmap_info = {
     bitmap_left : int;
     bitmap_top : int;
     bitmap_width : int;
     bitmap_height : int;
-  };;
+  }
 
-val get_bitmap_info : face -> bitmap_info;;
+val get_bitmap_info : face -> bitmap_info
 
-val read_bitmap : face -> int -> int -> int;;
+val read_bitmap : face -> int -> int -> int
 
 (** glyph metrics *)
 type bbox = {
@@ -94,22 +94,22 @@ type bbox = {
     ymin : int; (** 26.6 *)
     xmax : int; (** 26.6 *)
     ymax : int; (** 26.6 *)
-  };;
+  }
 
 type bearing_advance = {
     bearingx : int; (** 26.6 *)
     bearingy : int; (** 26.6 *)
     advance : int; (** 26.6 *)
-  };;
+  }
 
 type glyph_metrics = {
     gm_width : int (** 26.6 *);
     gm_height : int (** 26.6 *);
     gm_hori : bearing_advance;
     gm_vert : bearing_advance;
-  };;
+  }
 
-val get_glyph_metrics : face -> glyph_metrics;;
+val get_glyph_metrics : face -> glyph_metrics
 
 (** size metrics *)
 type size_metrics = {
@@ -117,12 +117,12 @@ type size_metrics = {
     y_ppem : int;
     x_scale : int; (** 16.16 *)
     y_scale : int; (** 16.16 *)
-  };;
+  }
 
-val get_size_metrics : face -> size_metrics;;
+val get_size_metrics : face -> size_metrics
 
 (** outline info *)
-type outline_tag = On_point | Off_point_conic | Off_point_cubic;;
+type outline_tag = On_point | Off_point_conic | Off_point_cubic
 
 type outline_contents = {
     n_contours : int;
@@ -130,6 +130,6 @@ type outline_contents = {
     points : (int * int) array;
     tags : outline_tag array;
     contours : int array;
-  };;
+  }
 
-val get_outline_contents : face -> outline_contents;;
+val get_outline_contents : face -> outline_contents

@@ -16,4 +16,4 @@
 
 OCAMLPACKS[] = lablgtk2 unix
 
-BuildExample(gifanim, gifanim guienv usleep, $(ALL_FILE_FORMATS) lablgtk2)
+BuildExample(gifanim, gifanim guienv usleep, $(FORMAT_SUBPACKAGES) lablgtk2)
