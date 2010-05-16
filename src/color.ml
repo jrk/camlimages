@@ -220,6 +220,7 @@ Standard for the Studio and for International Programme Exchange (1990),
 
 let color_name_table = ref None;;
 
+(* CR jfuruse: path_rgb_txt may not exist *)
 let color_table_load () =
   let ic = open_in Camlimages.path_rgb_txt in
   let table = Hashtbl.create 107 in

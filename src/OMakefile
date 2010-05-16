@@ -162,7 +162,7 @@ MakeLibOCaml(name) =
     OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
 
 LIBRARIES=
-  foreach(i, $(array core gif jpeg png tiff freetype xpm ps graphics lablgtk2))
+  foreach(i, $(SUBPACKAGES))
     MakeLibOCaml($(i))
 
 libraries: $(LIBRARIES)

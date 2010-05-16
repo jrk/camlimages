@@ -27,62 +27,114 @@ PATH_RGB_TXT[]=
   /etc/X11/rgb.txt
   /usr/share/X11
 
+BYTE_ENABLED=1
+NATIVE_ENABLED=1
+
 OCAMLMKLIB=ocamlmklib
 OCAMLMKLIB_EXISTS = $(CheckProg $(OCAMLMKLIB))
 if $(not $(OCAMLMKLIB_EXISTS))
    eprintln(This project requires ocamlmklib, but is was not found.)
    exit 1
 
-BYTE_ENABLED=1
-NATIVE_ENABLED=1
-
 .STATIC:
   CFLAGS = $(addprefix -I , $(INCLUDES))
 
   WORD_SIZE = $(Word_size)
 
+  LDFLAGS[]=
+  ALL_FILE_FORMATS[]=
+  SUBPACKAGES[]=
+
+  # for src/META
+  PACKAGE_NAME=camlimages
+  PACKAGE_VERSION=$(VERSION)
+  REQUIRES[]=unix
+
+  HAVE_gif=hoge
+  Have_library(gif, gif, gif_lib.h, DGifOpenFileName)
+
   HAVE_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
+  SUPPORT_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
+  if $(SUPPORT_GIF)
+    LDFLAGS+=-lgif
+    ALL_FILE_FORMATS+=gif
+    SUBPACKAGES+=gif
+    export
+
   HAVE_Z = $(Check_header_library z, zlib.h, zlibVersion)
   HAVE_PNG = $(Check_header_library png, png.h, png_create_read_struct)
-  HAVE_JPEG = $(Check_header_library jpeg, jpeglib.h, jpeg_read_header)
-  HAVE_TIFF = $(Check_header_library tiff, tiff.h, TIFFOpen)
-
-  SUPPORT_GIF = $(HAVE_GIF)
   SUPPORT_PNG = $(and $(HAVE_Z) $(HAVE_PNG))
+  if $(SUPPORT_PNG)
+    LDFLAGS+=-lpng -lz
+    ALL_FILE_FORMATS+=png
+    SUBPACKAGES+=png
+    export
+
+  HAVE_JPEG = $(Check_header_library jpeg, jpeglib.h, jpeg_read_header)
   SUPPORT_JPEG = $(HAVE_JPEG)
+  if $(SUPPORT_JPEG)
+    LDFLAGS+=-ljpeg
+    ALL_FILE_FORMATS+=jpeg
+    SUBPACKAGES+=jpeg
+    export
+
+  HAVE_TIFF = $(Check_header_library tiff, tiff.h, TIFFOpen)
   SUPPORT_TIFF = $(and $(HAVE_Z) $(HAVE_JPEG) $(HAVE_TIFF))
+  if $(SUPPORT_TIFF)
+    LDFLAGS+=-ltiff
+    ALL_FILE_FORMATS+=tiff
+    SUBPACKAGES+=tiff
+    export
+
+  HAVE_XPM = $(Check_header_library Xpm, xpm.h, XpmReadFileToXpmImage)
+  SUPPORT_XPM = $(HAVE_XPM)
+  if $(SUPPORT_XPM)
+    LDFLAGS+=-lXpm
+    ALL_FILE_FORMATS+=xpm
+    SUBPACKAGES+=xpm
+    export
 
   SUPPORT_LABLGTK2 = $(Check_ocamlfind_package lablgtk2)
-  SUPPORT_XPM = $(Check_header_library Xpm, xpm.h, XpmReadFileToXpmImage)
+  if $(SUPPORT_LABLGTK2)
+    SUBPACKAGES+=lablgtk2
+    REQUIRES+=lablgtk2
+    export
 
   SUPPORT_FREETYPE = $(Check_prog_in_path freetype-config)
   PATH_FREETYPE_CONFIG = $(WHERE)
   if $(SUPPORT_FREETYPE)
     CFLAGS= $(CFLAGS) $(shell freetype-config --cflags)
-    global.BUILDING_LDFLAGS= $(BUILDING_LDFLAGS) $(shell freetype-config --libs)
-    export # for CFLAGS
+    LDFLAGS+= $(shell freetype-config --libs)
+    export
+  if $(SUPPORT_FREETYPE)
+    SUBPACKAGES+=freetype
+    export
 
   SUPPORT_PS = $(Check_prog_in_path gs)
   PATH_GS = $(WHERE)
+  if $(SUPPORT_PS)
+    ALL_FILE_FORMATS+=ps
+    SUBPACKAGES+=ps
+    export
 
   SUPPORT_RGB_TXT = $(Check_file_in_path $(PATH_RGB_TXT), rgb.txt)
   PATH_RGB_TXT = $(WHERE)
 
-  # LIBS=$(BUILDING_LIBS)
-  LDFLAGS=$(BUILDING_LDFLAGS)
+  export
 
-  # for src/META
-  PACKAGE_VERSION=$(VERSION)
-  REQUIRES=unix
-  if $(SUPPORT_LABLGTK2)
-    REQUIRES+=lablgtk2
-  PACKAGE_NAME=camlimages
-
-println(---)
-println(Configuring)
+println(--- Configuring)
 println(Remove .omakedb if you think results are not up-to-date.)
 println(---)
 println(wordsize  $(WORD_SIZE))
+println(--- C libraries)
+println(libgif:   $(HAVE_GIF))
+println(libgif:   $(HAVE_gif))
+println(libpng:	  $(HAVE_PNG))
+println(libjpeg:  $(HAVE_JPEG))
+println(libtiff:  $(HAVE_TIFF))
+println(libxpm:	  $(HAVE_XPM))
+println(libz:	  $(HAVE_Z))
+println(--- Subpackages)
 println(gif:      $(SUPPORT_GIF))
 println(png:	  $(SUPPORT_PNG))
 println(jpeg:	  $(SUPPORT_JPEG))
@@ -92,6 +144,9 @@ println(freetype: $(SUPPORT_FREETYPE) \($(PATH_FREETYPE_CONFIG)\))
 println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
 println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
 println(lablgtk2: $(SUPPORT_LABLGTK2))
+println(--- Summary)
+println(formats:  $(string $(ALL_FILE_FORMATS)))
+println(subpackages:  $(string $(SUBPACKAGES)))
 println(CFLAGS:   $(string $(CFLAGS)))
 println(LDFLAGS:  $(string $(LDFLAGS)))
 println(---)
