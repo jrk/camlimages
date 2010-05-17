@@ -48,15 +48,15 @@ if $(not $(OCAMLMKLIB_EXISTS))
   # for src/META
   PACKAGE_NAME=camlimages
   PACKAGE_VERSION=$(VERSION)
-  REQUIRES[]=unix
 
-  HAVE_gif=hoge
-  Have_library(gif, gif, gif_lib.h, DGifOpenFileName)
+#  HAVE_gif=hoge
+#  Have_library(gif, gif, gif_lib.h, DGifOpenFileName)
 
   HAVE_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
   SUPPORT_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
+  LDFLAGS_gif=
   if $(SUPPORT_GIF)
-    LDFLAGS+=-lgif
+    LDFLAGS_gif=-lgif
     FORMAT_SUBPACKAGES+=gif
     SUBPACKAGES+=gif
     export
@@ -64,32 +64,36 @@ if $(not $(OCAMLMKLIB_EXISTS))
   HAVE_Z = $(Check_header_library z, zlib.h, zlibVersion)
   HAVE_PNG = $(Check_header_library png, png.h, png_create_read_struct)
   SUPPORT_PNG = $(and $(HAVE_Z) $(HAVE_PNG))
+  LDFLAGS_png=
   if $(SUPPORT_PNG)
-    LDFLAGS+=-lpng -lz
+    LDFLAGS_png=-lpng -lz
     FORMAT_SUBPACKAGES+=png
     SUBPACKAGES+=png
     export
 
   HAVE_JPEG = $(Check_header_library jpeg, jpeglib.h, jpeg_read_header)
   SUPPORT_JPEG = $(HAVE_JPEG)
+  LDFLAGS_jpeg=
   if $(SUPPORT_JPEG)
-    LDFLAGS+=-ljpeg
+    LDFLAGS_jpeg=-ljpeg
     FORMAT_SUBPACKAGES+=jpeg
     SUBPACKAGES+=jpeg
     export
 
   HAVE_TIFF = $(Check_header_library tiff, tiff.h, TIFFOpen)
   SUPPORT_TIFF = $(and $(HAVE_Z) $(HAVE_JPEG) $(HAVE_TIFF))
+  LDFLAGS_tiff=
   if $(SUPPORT_TIFF)
-    LDFLAGS+=-ltiff
+    LDFLAGS_tiff=$(array -ltiff -ljpeg -lz)
     FORMAT_SUBPACKAGES+=tiff
     SUBPACKAGES+=tiff
     export
 
   HAVE_XPM = $(Check_header_library Xpm, xpm.h, XpmReadFileToXpmImage)
   SUPPORT_XPM = $(HAVE_XPM)
+  LDFLAGS_xpm=
   if $(SUPPORT_XPM)
-    LDFLAGS+=-lXpm
+    LDFLAGS_xpm=-lXpm
     FORMAT_SUBPACKAGES+=xpm
     SUBPACKAGES+=xpm
     export
@@ -97,14 +101,19 @@ if $(not $(OCAMLMKLIB_EXISTS))
   SUPPORT_LABLGTK2 = $(Check_ocamlfind_package lablgtk2)
   if $(SUPPORT_LABLGTK2)
     SUBPACKAGES+=lablgtk2
-    REQUIRES+=lablgtk2
+    export
+
+  SUPPORT_GRAPHICS = $(Check_ocamlfind_package graphics)
+  if $(SUPPORT_GRAPHICS)
+    SUBPACKAGES+=graphics
     export
 
   SUPPORT_FREETYPE = $(Check_prog_in_path freetype-config)
   PATH_FREETYPE_CONFIG = $(WHERE)
+  LDFLAGS_freetype=
   if $(SUPPORT_FREETYPE)
     CFLAGS= $(CFLAGS) $(shell freetype-config --cflags)
-    LDFLAGS+= $(shell freetype-config --libs)
+    LDFLAGS_freetype= $(shell freetype-config --libs)
     export
   if $(SUPPORT_FREETYPE)
     SUBPACKAGES+=freetype
@@ -128,19 +137,18 @@ println(---)
 println(wordsize  $(WORD_SIZE))
 println(--- C libraries)
 println(libgif:   $(HAVE_GIF))
-println(libgif:   $(HAVE_gif))
 println(libpng:	  $(HAVE_PNG))
 println(libjpeg:  $(HAVE_JPEG))
 println(libtiff:  $(HAVE_TIFF))
 println(libxpm:	  $(HAVE_XPM))
 println(libz:	  $(HAVE_Z))
 println(--- Subpackages)
-println(gif:      $(SUPPORT_GIF))
-println(png:	  $(SUPPORT_PNG))
-println(jpeg:	  $(SUPPORT_JPEG))
-println(tiff:	  $(SUPPORT_TIFF))
-println(xpm:	  $(SUPPORT_XPM))
-println(freetype: $(SUPPORT_FREETYPE) \($(PATH_FREETYPE_CONFIG)\))
+println(gif:      $(SUPPORT_GIF) \($(string $(LDFLAGS_gif)\)))
+println(png:	  $(SUPPORT_PNG) \($(string $(LDFLAGS_png)\)))
+println(jpeg:	  $(SUPPORT_JPEG) \($(string $(LDFLAGS_jpeg)\)))
+println(tiff:	  $(SUPPORT_TIFF) \($(string $(LDFLAGS_tiff)\)))
+println(xpm:	  $(SUPPORT_XPM) \($(string $(LDFLAGS_xpm)\)))
+println(freetype: $(SUPPORT_FREETYPE) \($(PATH_FREETYPE_CONFIG)\) \($(string $(LDFLAGS_freetype))\))
 println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
 println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
 println(lablgtk2: $(SUPPORT_LABLGTK2))
@@ -148,7 +156,6 @@ println(--- Summary)
 println(formats:  $(string $(FORMAT_SUBPACKAGES)))
 println(subpackages:  $(string $(SUBPACKAGES)))
 println(CFLAGS:   $(string $(CFLAGS)))
-println(LDFLAGS:  $(string $(LDFLAGS)))
 println(---)
 
 # for config.h

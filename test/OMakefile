@@ -14,19 +14,12 @@
 
 #(* $Id: OMakefile,v 1.1.2.2 2010/05/13 13:37:15 furuse Exp $ *)
 
-.PHONY: all clean
-
-FILES[]=
-  test
-
 OCAMLPACKS[]=
   graphics
 
 SUB_PACKAGES[]= $(FORMAT_SUBPACKAGES) graphics freetype
 
-BuildWithCamlimages($(SUB_PACKAGES))
-
-.DEFAULT: $(OCamlProgram test, $(FILES))
+BuildExample(test, test, $(SUB_PACKAGES))
 
 clean:
   rm -f $(filter-proper-targets $(ls R, .))
