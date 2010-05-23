@@ -38,5 +38,5 @@ MODULES[] =
   tout
   viewer
 
-BuildExample(liv, $(MODULES), $(FORMAT_SUBPACKAGES) lablgtk2)
+BuildExample(liv, $(MODULES), $(SUPPORTED_FORMATS) lablgtk2)
 

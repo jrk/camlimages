@@ -12,8 +12,6 @@
 #                                                                     #
 #*********************************************************************#
 
-VERSION=3.3.0
-
 # Specify non standard include directories
 INCLUDES[]=
   /usr/include/X11
@@ -30,6 +28,14 @@ PATH_RGB_TXT[]=
 BYTE_ENABLED=1
 NATIVE_ENABLED=1
 
+########################################################################
+
+VERSION=3.3.0
+
+# for src/META
+PACKAGE_NAME=camlimages
+PACKAGE_VERSION=$(VERSION)
+
 OCAMLMKLIB=ocamlmklib
 OCAMLMKLIB_EXISTS = $(CheckProg $(OCAMLMKLIB))
 if $(not $(OCAMLMKLIB_EXISTS))
@@ -41,23 +47,19 @@ if $(not $(OCAMLMKLIB_EXISTS))
 
   WORD_SIZE = $(Word_size)
 
-  LDFLAGS[]=
-  FORMAT_SUBPACKAGES[]=
+  # Variables must be initialized inside .STATIC, if they should be 
+  # exported out.
+  SUPPORTED_FORMATS[]=
+  SUPPORTED_NON_FORMATS[]=
   SUBPACKAGES[]=
-
-  # for src/META
-  PACKAGE_NAME=camlimages
-  PACKAGE_VERSION=$(VERSION)
-
-#  HAVE_gif=hoge
-#  Have_library(gif, gif, gif_lib.h, DGifOpenFileName)
+  OCAMLPACKS[]=
 
   HAVE_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
-  SUPPORT_GIF = $(Check_header_library gif, gif_lib.h, DGifOpenFileName)
+  SUPPORT_GIF = $(HAVE_GIF)
   LDFLAGS_gif=
   if $(SUPPORT_GIF)
     LDFLAGS_gif=-lgif
-    FORMAT_SUBPACKAGES+=gif
+    SUPPORTED_FORMATS+=gif
     SUBPACKAGES+=gif
     export
 
@@ -67,7 +69,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   LDFLAGS_png=
   if $(SUPPORT_PNG)
     LDFLAGS_png=-lpng -lz
-    FORMAT_SUBPACKAGES+=png
+    SUPPORTED_FORMATS+=png
     SUBPACKAGES+=png
     export
 
@@ -76,7 +78,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   LDFLAGS_jpeg=
   if $(SUPPORT_JPEG)
     LDFLAGS_jpeg=-ljpeg
-    FORMAT_SUBPACKAGES+=jpeg
+    SUPPORTED_FORMATS+=jpeg
     SUBPACKAGES+=jpeg
     export
 
@@ -85,7 +87,7 @@ if $(not $(OCAMLMKLIB_EXISTS))
   LDFLAGS_tiff=
   if $(SUPPORT_TIFF)
     LDFLAGS_tiff=$(array -ltiff -ljpeg -lz)
-    FORMAT_SUBPACKAGES+=tiff
+    SUPPORTED_FORMATS+=tiff
     SUBPACKAGES+=tiff
     export
 
@@ -94,35 +96,41 @@ if $(not $(OCAMLMKLIB_EXISTS))
   LDFLAGS_xpm=
   if $(SUPPORT_XPM)
     LDFLAGS_xpm=-lXpm
-    FORMAT_SUBPACKAGES+=xpm
+    SUPPORTED_FORMATS+=xpm
     SUBPACKAGES+=xpm
     export
 
   SUPPORT_LABLGTK2 = $(Check_ocamlfind_package lablgtk2)
   if $(SUPPORT_LABLGTK2)
     SUBPACKAGES+=lablgtk2
+    SUPPORTED_NON_FORMATS+=lablgtk2
+    OCAMLPACKS+=lablgtk2
     export
 
   SUPPORT_GRAPHICS = $(Check_ocamlfind_package graphics)
   if $(SUPPORT_GRAPHICS)
     SUBPACKAGES+=graphics
+    SUPPORTED_NON_FORMATS+=graphics
+    OCAMLPACKS+=graphics
     export
 
   SUPPORT_FREETYPE = $(Check_prog_in_path freetype-config)
   PATH_FREETYPE_CONFIG = $(WHERE)
   LDFLAGS_freetype=
   if $(SUPPORT_FREETYPE)
+    println(SUPPORT_FREETYPE=$(SUPPORT_FREETYPE)!)
     CFLAGS= $(CFLAGS) $(shell freetype-config --cflags)
     LDFLAGS_freetype= $(shell freetype-config --libs)
     export
   if $(SUPPORT_FREETYPE)
     SUBPACKAGES+=freetype
+    SUPPORTED_NON_FORMATS+=freetype
     export
 
   SUPPORT_PS = $(Check_prog_in_path gs)
   PATH_GS = $(WHERE)
   if $(SUPPORT_PS)
-    FORMAT_SUBPACKAGES+=ps
+    SUPPORTED_FORMATS+=ps
     SUBPACKAGES+=ps
     export
 
@@ -153,7 +161,8 @@ println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
 println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
 println(lablgtk2: $(SUPPORT_LABLGTK2))
 println(--- Summary)
-println(formats:  $(string $(FORMAT_SUBPACKAGES)))
+println(supported formats:  $(string $(SUPPORTED_FORMATS)))
+println(supported non-formats:  $(string $(SUPPORTED_NON_FORMATS)))
 println(subpackages:  $(string $(SUBPACKAGES)))
 println(CFLAGS:   $(string $(CFLAGS)))
 println(---)

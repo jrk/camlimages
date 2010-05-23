@@ -61,6 +61,10 @@ CFILES_xpm[]=
 CFILES_xpm_na[]=
   xpm_na
 
+CFILES_lib(name) =
+  CFILES_VAR = $(if $(mem $(name), $(SUBPACKAGES)), CFILES_$(name), CFILES_$(name)_na)
+  value $(getvar $(CFILES_VAR))
+
 ###################################################################### ML FILES
 
 FILES_core[]=
@@ -142,16 +146,14 @@ PACKS_graphics[]=
 PACKS_lablgtk2[]=
   lablgtk2
 
-OCAMLPACKS[]=
-  graphics lablgtk2
-
 ################################################################## C BUILD RULE
 
 CFLAGS+= -fPIC -I $(OCAML_WHERE)
 
 MakeLibC(name) =
-  CFILES_VAR = $(if $(mem $(name), $(SUBPACKAGES)), CFILES_$(name), CFILES_$(name)_na)
-  OCamlMkLibC($(LIBRARY_PREFIX)_$(name), $(getvar $(CFILES_VAR)), $(getvar LDFLAGS_$(name)))
+  OCamlMkLibC($(LIBRARY_PREFIX)_$(name), \
+	$(CFILES_lib $(name)), \
+	$(getvar LDFLAGS_$(name)))
 
 ################################################################# ML BUILD RULE
 
@@ -186,7 +188,7 @@ MakeLibOCaml(name) =
 
 LIBRARIES=
   # CR jfurue: lablgtk2, freetype and graphics may not be buildable
-  foreach(i, core gif png jpeg tiff xpm ps lablgtk2 freetype graphics)
+  foreach(i, core gif png jpeg tiff xpm ps $(SUPPORTED_NON_FORMATS))
     MakeLibOCaml($(i))
 
 libraries: $(LIBRARIES)

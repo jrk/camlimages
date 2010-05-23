@@ -33,16 +33,8 @@ OCAML_WHERE = $(shell ocamlc -where)
 
 open configure/Configure
 
-Check_header(header) =
-  ConfMsgChecking($(header))
-  ConfMsgFound($(CheckCHeader $(header)))
-
-Check_library(lib, func) =
-  ConfMsgChecking($(func) in -l$(lib))
-  ConfMsgFound($(CheckCLib $(lib), $(func)))
-
 Check_header_library(xlib, xheader, xfunc) =
-  return $(and $(Check_header $(xheader)), $(Check_library $(xlib), $(xfunc)))
+  return $(and $(VerboseCheckCHeader $(xheader)), $(VerboseCheckCLib $(xlib), $(xfunc)))
 
 Have_library(libname, lib, header, func) =
   setvar(this.HAVE_$(libname), $(Check_header_library $(lib), $(header), $(func)))
@@ -56,21 +48,24 @@ Check_pkg_config(package, option) =
   ConfMsgChecking(Freetype)
   ConfMsgFound($(shell-success $(package)-config $(option)))
 
+where1(com) =
+  WHERE = $(where $(prog))
+  if $(WHERE)
+    value $(nth 0, $(WHERE))
+  else
+    value
+
 # export $(WHERE)
 Check_prog_in_path(prog) =
    ConfMsgChecking(for $(prog))
-   WHERE = $(where $(prog))
+   WHERE = $(where1 $(prog))
+   export WHERE
    if $(WHERE)
-      WHERE = $(nth 0, $(WHERE))
-      export WHERE
       ConfMsgResult(found $(WHERE))
       return true
    else
-      WHERE = 
-      export WHERE
       ConfMsgResult(FAILED - no $(prog) found)
       return false
-   export WHERE
 
 # export $(WHERE)
 Check_file_in_path(path, file) =
@@ -110,7 +105,7 @@ Word_size() =
 OCamlMkLibC(name, files, ldflags) =
   protected.COBJS=$(addsuffix .o, $(files))
   dll$(name).so lib$(name).a: $(COBJS)
-    $(OCAMLMKLIB) -o $(name) $(ldflags) $(COBJS)
+    $(OCAMLMKLIB) -o $(name) $(LDFLAGS) $(ldflags) $(COBJS)
   return $(array dll$(name).so, lib$(name).a)
 
 ################################################################ config replace
@@ -146,15 +141,6 @@ SRCDIR = $(ROOT)/src
 
 Subpackages_available(packs) =
   sequence-forall($(fun elem, $(mem $(elem), $(SUBPACKAGES))), $(packs))
-
-BuildWithCamlimages(subs) =
-  # the library is created with -dllib: no -custom required
-  OCAML_BYTE_LINK_FLAGS=
-  OCAMLINCLUDES += $(SRCDIR)
-  subs=core $(subs)
-  OCAML_LIBS+= $(addprefix $(SRCDIR)/camlimages_, $(subs))
-  OCAML_BYTE_LINK_FLAGS+=-dllpath $(SRCDIR)
-  export
 
 BuildExample(namex, modules, packages) = 
   .PHONY: clean
