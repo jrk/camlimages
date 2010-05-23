@@ -16,4 +16,4 @@
 
 OCAMLPACKS[]= unix
 
-BuildExample(crop, crop, $(SUPPORTED_FORMATS))
+BuildExample(crop, crop, all)

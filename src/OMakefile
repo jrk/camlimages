@@ -61,9 +61,21 @@ CFILES_xpm[]=
 CFILES_xpm_na[]=
   xpm_na
 
+CFILES_ps[]=
+
+CFILES_ps_na[]=
+
 CFILES_lib(name) =
-  CFILES_VAR = $(if $(mem $(name), $(SUBPACKAGES)), CFILES_$(name), CFILES_$(name)_na)
+  CFILES_VAR = $(if $(mem $(name), all supported $(SUPPORTED_SUBPACKAGES)), CFILES_$(name), CFILES_$(name)_na)
   value $(getvar $(CFILES_VAR))
+
+CFILES_supported=
+  foreach(p, $(SUPPORTED_FORMATS))
+    value $(CFILES_lib $(p))
+
+CFILES_all=
+  foreach(p, $(FORMATS))
+    value $(CFILES_lib $(p))
 
 ###################################################################### ML FILES
 
@@ -127,6 +139,14 @@ FILES_ps[]=
   ps
   oPs
 
+FILES_supported=
+  foreach(p, $(SUPPORTED_FORMATS))
+    value $(getvar FILES_$(p))
+
+FILES_all=
+  foreach(p, $(FORMATS))
+    value $(getvar FILES_$(p))
+
 FILES_graphics[]=
   graphic_image
   oGraphic
@@ -137,6 +157,28 @@ FILES_lablgtk2[]=
   oXimage2
   ximage
   ximage2
+
+####################################################################### LDFLAGS
+
+LDFLAGS_core[]=
+
+#LDFLAGS_supported=
+#  foreach(p, $(SUPPORTED_FORMATS))
+#    value $(getvar LDFLAGS_$(p))
+
+LDFLAGS_supported=
+  x=
+  foreach(p, $(SUPPORTED_FORMATS))
+    x+= $(getvar LDFLAGS_$(p))
+    export
+  value $(x)
+
+LDFLAGS_all=
+  x=
+  foreach(p, $(FORMATS))
+    x+= $(getvar LDFLAGS_$(p))
+    export
+  value $(x)
 
 ###################################################################### PACKAGES
 
@@ -159,15 +201,27 @@ MakeLibC(name) =
 
 MakeLibOCaml(name) =
 
-  OCAMLPACKS= 
+  OCAMLPACKS=
     try
       getvar(PACKS_$(name))
     default
       array() # default is empty
 
-  try
-    getvar(CFILES_$(name))
-    # CFILES_$(name) exists: library with C
+  pure=
+    try $(equal 0, $(length $(getvar CFILES_$(name))))
+    default
+      value true
+
+  if $(pure)
+    # pure ocaml library
+    OCAML_LIB_FLAGS=
+      try
+        -linkall $(mapprefix -cclib, $(getvar LDFLAGS_$(name)))
+      default
+        array()
+    OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
+
+  else # inpure
     $(LIBRARY_PREFIX)_$(name).cma $(LIBRARY_PREFIX)_$(name).cmxa: $(MakeLibC $(name))
     # OCAML_{BYTE,NATIVE}_LINK_FLAGS do not work for OCamlLibrary
     # Bit dirty workaround
@@ -177,18 +231,10 @@ MakeLibOCaml(name) =
     # is considered one option.
     OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(getvar LDFLAGS_$(name)))
     OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
-  default
-    # pure ocaml library
-    OCAML_LIB_FLAGS=
-      try
-        -linkall $(mapprefix -cclib, $(getvar LDFLAGS_$(name)))
-      default
-        array()
-    OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
 
 LIBRARIES=
   # CR jfurue: lablgtk2, freetype and graphics may not be buildable
-  foreach(i, core gif png jpeg tiff xpm ps $(SUPPORTED_NON_FORMATS))
+  foreach(i, core $(FORMATS) supported all $(SUPPORTED_NON_FORMATS))
     MakeLibOCaml($(i))
 
 libraries: $(LIBRARIES)

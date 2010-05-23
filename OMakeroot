@@ -140,7 +140,7 @@ SRCDIR = $(ROOT)/src
 ################################################################### local build
 
 Subpackages_available(packs) =
-  sequence-forall($(fun elem, $(mem $(elem), $(SUBPACKAGES))), $(packs))
+  sequence-forall($(fun elem, $(mem $(elem), all supported $(SUPPORTED_SUBPACKAGES))), $(packs))
 
 BuildExample(namex, modules, packages) = 
   .PHONY: clean

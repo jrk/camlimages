@@ -17,7 +17,7 @@
 OCAMLPACKS[]=
   graphics
 
-SUB_PACKAGES[]= $(SUPPORTED_FORMATS) graphics freetype
+SUB_PACKAGES[]= all graphics freetype
 
 BuildExample(test, test, $(SUB_PACKAGES))
 
