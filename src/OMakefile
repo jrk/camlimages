@@ -216,7 +216,7 @@ MakeLibOCaml(name) =
     # pure ocaml library
     OCAML_LIB_FLAGS=
       try
-        -linkall $(mapprefix -cclib, $(getvar LDFLAGS_$(name)))
+        -linkall $(mapprefix -cclib, $(LDFLAGS) $(getvar LDFLAGS_$(name)))
       default
         array()
     OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
@@ -229,7 +229,7 @@ MakeLibOCaml(name) =
     OCAMLOPTFLAGS+=-cclib -l$(LIBRARY_PREFIX)_$(name)
     # use mapprefix instead of addprefix, otherwise "-cclib -lgif"
     # is considered one option.
-    OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(getvar LDFLAGS_$(name)))
+    OCAML_LIB_FLAGS=-linkall $(mapprefix -cclib, $(LDFLAGS) $(getvar LDFLAGS_$(name)))
     OCamlLibrary($(LIBRARY_PREFIX)_$(name), $(getvar FILES_$(name)))
 
 LIBRARIES=

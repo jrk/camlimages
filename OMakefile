@@ -20,7 +20,7 @@ INCLUDES[]=
   /usr/local/include
 
 # Specify non standard library directories
-LDFLAGS[]=
+LDFLAGS[]= -L/tmp
 
 # Specify directories where X's rgb.txt can be found
 PATH_RGB_TXT[]=
