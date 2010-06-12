@@ -108,6 +108,21 @@ OCamlMkLibC(name, files, ldflags) =
     $(OCAMLMKLIB) -o $(name) $(LDFLAGS) $(ldflags) $(COBJS)
   return $(array dll$(name).so, lib$(name).a)
 
+# If ocamlmklib does not work for you, you can do:
+# 1. Put -verbose switch to the above call of $(OCAMLMKLIB) and see the command.
+# 2. Tweak the commands ocamlmklib invokes for you environment.
+# 3. Redefine OCamlMklibC with the tweaked commands.
+# For example, in Linux,
+#
+# OCamlMkLibC(name, files, ldflags) =
+#   protected.COBJS=$(addsuffix .o, $(files))
+#   dll$(name).so lib$(name).a: $(COBJS)
+#     # Change the following
+#     $(CC) -shared -o dll$(name).so $(LDFLAGS) $(ldflags) $(COBJS)
+#     ar rc lib$(name).a $(COBJS); ranlib lib$(name).a
+#     # Upto here
+#   return $(array dll$(name).so, lib$(name).a)
+
 ################################################################ config replace
 
 ConfReplaceAt(file)=
