@@ -34,7 +34,7 @@ NATIVE_ENABLED=1
 
 ########################################################################
 
-VERSION=3.3.0
+VERSION=4.0.0
 
 # for src/META
 PACKAGE_NAME=camlimages
@@ -126,7 +126,8 @@ if $(not $(OCAMLMKLIB_EXISTS))
     OCAMLPACKS+=lablgtk2
     export
 
-  SUPPORT_GRAPHICS = $(Check_ocamlfind_package graphics)
+  # CR: ocamlfind registers graphics even if not available
+  SUPPORT_GRAPHICS = $(Check_ocamlfind_package_compilation graphics, Graphics)
   if $(SUPPORT_GRAPHICS)
     SUPPORTED_NON_FORMATS+=graphics
     OCAMLPACKS+=graphics
@@ -172,6 +173,7 @@ println(freetype: $(SUPPORT_FREETYPE) \($(PATH_FREETYPE_CONFIG)\) \($(string $(L
 println(ps:       $(SUPPORT_PS) \($(PATH_GS)\))
 println(rgb.txt:  $(SUPPORT_RGB_TXT) \($(PATH_RGB_TXT)\))
 println(lablgtk2: $(SUPPORT_LABLGTK2))
+println(graphics: $(SUPPORT_GRAPHICS))
 println(--- Summary)
 println(supported subpackages:  $(string $(SUPPORTED_SUBPACKAGES)))
 println(supported formats:  $(string $(SUPPORTED_FORMATS)))

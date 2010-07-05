@@ -13,7 +13,6 @@ stamp-h1$
 config\.status$
 config\.log$
 config\.h$
-config\.h\.in$
 
 src/camlimages\.ml$
 src/META$

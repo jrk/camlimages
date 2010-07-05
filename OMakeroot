@@ -92,6 +92,26 @@ Word_size() =
   else
     value 8
 
+Check_ocamlfind_package_compilation(package, module) =
+    ConfMsgChecking(Checking $(package) compilability: open $(module))
+    tmp_ml = $(file $(tmpfile omake, .ml))
+    tmp = $(file $(replacesuffixes .ml, $"$(EMPTY)", $(tmp_ml)))
+    command[] = $(OCamlC) -c -package $(package) $(tmp_ml)
+
+    # The program
+    program = $"""(* Configuration file; you can remove this. *)
+open $(module)
+"""
+    
+    # Compile it
+    fprint($(tmp_ml), $(program))
+
+    protected.result = $(shell-success-null $(command))
+
+    rm -f $(tmp_ml) $(tmp).cmi $(tmp).cmo $(tmp)$(EXE)
+
+    return $(ConfMsgYesNo $(result))
+
 #################################################################### build rule
 
 # annot, spot, spit files
