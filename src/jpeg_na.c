@@ -28,3 +28,5 @@ value open_jpeg_file_for_write(){ failwith("unsupported"); }
 value open_jpeg_file_for_write_cmyk(){ failwith("unsupported"); }
 value write_jpeg_scanline(){ failwith("unsupported"); }
 value close_jpeg_file_for_write(){ failwith("unsupported"); }
+value read_JPEG_file(){ failwith("unsupported"); }
+value write_JPEG_file(){ failwith("unsupported"); }
