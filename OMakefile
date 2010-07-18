@@ -12,6 +12,8 @@
 #                                                                     #
 #*********************************************************************#
 
+include OMyMakeroot
+
 ########################################## You may want to change these
 
 # Specify non standard include directories
@@ -34,7 +36,7 @@ NATIVE_ENABLED=1
 
 ########################################################################
 
-VERSION=3.3.0
+VERSION=4.0.0
 
 # for src/META
 PACKAGE_NAME=camlimages
