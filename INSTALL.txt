@@ -6,15 +6,15 @@ This library is reliable but still under development.
 
  To install CamlImages library, you need the following softwares:
 
-        * ocaml 3.11 or higher
+        * ocaml 3.11.x or higher
 	* findlib (aka ocamlfind, 
 	  	   http://www.camlcity.org/archive/programming/findlib.html)
         * omake (http://omake.metaprl.org/index.html)
 
-and that is all. But note that this is the minimum requirement: you
-can read/write BMP or PXM (PPM, PGM, PBM) image formats but no other
-formats. If you want to deal with other image formats, you need to
-install the corresponding external libraries:
+Note that this is the minimum requirement: you can read/write BMP or
+PXM (PPM, PGM, PBM) image formats but no other formats. If you want to
+deal with other image formats, you need to install the corresponding
+external libraries:
 
         * libpng for PNG format
                 http://www.libpng.org/pub/png/libpng.html
@@ -50,7 +50,12 @@ install the corresponding external libraries:
         * lablgtk2, an Objective Caml interface to gtk+
                 http://wwwfun.kurims.kyoto-u.ac.jp/soft/olabl/lablgtk.html
 
-*** OLD installation procedure by automake
+*** Installation procedure by omake
+
+ % omake
+ % omake install
+
+*** OLD installation procedure by automake (not supported any more)
 
  * GNU make
  * automake (1.7.9 does not work. 1.9.6 works)
