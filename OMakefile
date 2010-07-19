@@ -12,6 +12,8 @@
 #                                                                     #
 #*********************************************************************#
 
+include OMyMakeroot
+
 ########################################## You may want to change these
 
 # Specify non standard include directories

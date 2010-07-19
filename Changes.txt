@@ -1,4 +1,4 @@
-3.3.0
+4.0.0
 	* Stop supporting the autoconf build. (It might works though.)
 	* Instead of autoconf, using omake and ocamlfind
 	* Subpackages: no need to link codes for uninterested format.
