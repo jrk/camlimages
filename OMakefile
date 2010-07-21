@@ -43,10 +43,6 @@ PACKAGE_NAME=camlimages
 PACKAGE_VERSION=$(VERSION)
 
 OCAMLMKLIB=ocamlmklib
-OCAMLMKLIB_EXISTS = $(CheckProg $(OCAMLMKLIB))
-if $(not $(OCAMLMKLIB_EXISTS))
-   eprintln(This project requires ocamlmklib, but is was not found.)
-   exit 1
 
 ##################################################### Auto configuration
 
@@ -82,6 +78,17 @@ print_configured() =
 .STATIC:
   # Variables must be initialized inside .STATIC, if they should be
   # exported out.
+
+  if $(not $(OCAMLFIND_EXISTS))
+     eprintln(This project requires ocamlfind\, but is was not found.)
+     eprintln(You need to install ocamlfind and run "omake --configure".)
+     exit 1
+
+  OCAMLMKLIB_EXISTS = $(CheckProg $(OCAMLMKLIB))
+  if $(not $(OCAMLMKLIB_EXISTS))
+     eprintln(This project requires ocamlmklib, but is was not found.)
+     eprintln(You need to install ocamlmklib and run "omake --configure".)
+     exit 1
 
   CFLAGS = $(addprefix -I , $(INCLUDES))
 
@@ -197,3 +204,4 @@ section:
   ConfReplaceConfigH(config.h)
 
 .SUBDIRS: src test examples
+

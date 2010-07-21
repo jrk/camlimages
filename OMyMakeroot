@@ -18,11 +18,6 @@ DefineCommandVars()
 
 USE_OCAMLFIND = true
 
-if $(not $(OCAMLFIND_EXISTS))
-   eprintln(This project requires ocamlfind\, but is was not found.)
-   eprintln(You need to install ocamlfind and run "omake --configure".)
-   exit 1
-
 OCAML_WHERE = $(shell ocamlc -where)
 
 ##################################################################### configure
@@ -89,7 +84,7 @@ Word_size() =
     value 8
 
 Check_ocamlfind_package_compilation(package, module) =
-    ConfMsgChecking(Checking $(package) compilability: open $(module))
+    ConfMsgChecking($(package) compilability: open $(module))
     tmp_ml = $(file $(tmpfile omake, .ml))
     tmp = $(file $(replacesuffixes .ml, $"$(EMPTY)", $(tmp_ml)))
     command[] = $(OCamlC) -c -package $(package) $(tmp_ml)
