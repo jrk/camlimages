@@ -250,14 +250,29 @@ ConfReplaceAt(META)
 
 all: libraries META
 
+INSTALL_TARGETS()=
+    value META \
+      $(glob i, *.mli) \
+      $(glob i, *.cmi) \
+      $(glob i, *.spot) \
+      $(glob i, *.spit) \
+      $(glob i, *.cma) \
+      $(glob i, *.cmxa) \
+      $(glob i, *.a) \
+      $(glob i, *.so)
+
+INSTALL()=
+  value $(OCAMLFIND) install $(LIBRARY_PREFIX) $(INSTALL_TARGETS)
+
+UNINSTALL()=
+  value $(OCAMLFIND) remove $(LIBRARY_PREFIX)
+
 install: all
-  $(OCAMLFIND) install $(LIBRARY_PREFIX) \
-    META \
-    $(glob i, *.mli) \
-    $(glob i, *.cmi) \
-    $(glob i, *.spot) \
-    $(glob i, *.spit) \
-    $(glob i, *.cma) \
-    $(glob i, *.cmxa) \
-    $(glob i, *.a) \
-    $(glob i, *.so)
+  $(INSTALL)
+
+# Author's personal thing
+if $(defined BIG_ROOT)
+    $(INSTALLED)/camlimages: $(LIBRARIES) META
+        $(touch_installed_md5 camlimages, $(INSTALL_TARGETS))
+        $(UNINSTALL)
+        $(INSTALL)
