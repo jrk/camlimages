@@ -272,6 +272,7 @@ install: all
 
 # Author's personal thing
 if $(defined BIG_ROOT)
+    %.cmx %.cmo %.cmi %.cma %.cmxa %.annot %.spot %.spit: $(INSTALLED)/lablgtk2
     $(INSTALLED)/camlimages: $(LIBRARIES) META
         $(touch_installed_md5 camlimages, $(INSTALL_TARGETS))
         $(UNINSTALL)
