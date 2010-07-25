@@ -1,10 +1,12 @@
 # Process this file with autoconf to produce a configure script.
+m4_include([ocaml.m4])
 AC_PREREQ(2.59)
-AC_INIT(camlimages, 3.3.0, jun.furuse@gmail.com)
+AC_INIT(camlimages, 3.2.0, use-omake-to-be-supported@nowhere.com)
 AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE
 
 # Check ocaml
-AC_PROG_OCAML([3.11])
+AC_PROG_OCAML([3.08])
 AC_PROG_OCAML_TOOL(OCAMLMKLIB, ocamlmklib)
 AC_SUBST(OCAMLLIB)
 
@@ -254,6 +256,21 @@ else
 	AC_MSG_CHECKING([if gif bug is fixed])
 	save_LDFLAGS="$LDFLAGS"
 	LDFLAGS="$LDFLAGS $LIBGIF"
+	AC_TRY_RUN(
+	    [
+#include <stdio.h>
+#include <gif_lib.h>
+main()
+{
+    EGifSetGifVersion("89a");
+    return 0;
+}
+	    ],
+	    [AC_DEFINE([GIFLIB_BUG_FIXED], [1], [Define if the bug in gif library has been fixed.])
+	    AC_MSG_RESULT([yes])],
+	    [AC_MSG_WARN([buggy gif library, consider rebuilding it with  gcc option -fwritable-strings])
+	    AC_MSG_RESULT([no])]
+	)
 	LDFLAGS=$save_LDFLAGS
     fi
 fi

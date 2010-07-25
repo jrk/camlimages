@@ -14,15 +14,15 @@
 
 (* $Id: oXimage.mli,v 1.1.2.1 2010/05/13 13:14:47 furuse Exp $*)
 
-open Ximage2;;
+open Ximage;;
 
-class ximage : Ximage2.t -> object
+class ximage : Ximage.t -> object
   method width : int
   method height : int
-  method unsafe_get : int -> int -> Ximage2.elt
-  method unsafe_set : int -> int -> Ximage2.elt -> unit
-  method get : int -> int -> Ximage2.elt
-  method set : int -> int -> Ximage2.elt -> unit
+  method unsafe_get : int -> int -> Ximage.elt
+  method unsafe_set : int -> int -> Ximage.elt -> unit
+  method get : int -> int -> Ximage.elt
+  method set : int -> int -> Ximage.elt -> unit
   method data : Gdk.image
   method destroy : unit
 end;;

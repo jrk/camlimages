@@ -94,7 +94,7 @@ DIST_COMMON = README $(srcdir)/../../Makefile.rules \
 @HAVE_LABLGTK_TRUE@am__append_6 = lablgtk.cma
 subdir = examples/liv
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/../autoconf/ocaml.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/ocaml.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -183,6 +183,9 @@ LIBS = @LIBS@
 LIBTIFF = @LIBTIFF@
 LIBXPM = @LIBXPM@
 LTLIBOBJS = @LTLIBOBJS@
+MAINT = @MAINT@
+MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
+MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 OBJEXT = @OBJEXT@
 OCAMLC = @OCAMLC@
@@ -301,8 +304,7 @@ CLEANFILES = $(OCAMLBYTOBJS) \
 	     $(OCAMLOPTOBJS) \
 	     $(OCAMLOPTOBJS:.cmx=.o) \
 	     $(OCAMLSOURCES:.ml=.cmi) \
-	     $(COBJS) \
-	     .depend
+	     $(COBJS)
 
 EXTRA_DIST = BulletHole.xpm \
 	     faceanm.gif \
@@ -320,7 +322,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .ml .mli .cmo .cmi .cmx .c .o
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/../../Makefile.variables $(srcdir)/../../Makefile.rules $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../../Makefile.variables $(srcdir)/../../Makefile.rules $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -345,9 +347,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
 clean-noinstPROGRAMS:

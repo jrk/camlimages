@@ -46,7 +46,7 @@ class viewer ?border_width ?width ?height ?packing ?show () =
 
     method progress = prog
 
-    method display (ximage : OXimage2.ximage) =
+    method display (ximage : OXimage.ximage) =
       let pixmap =
         let win = fixed#misc#window in
         let pix =

@@ -15,7 +15,7 @@
 open OImages;;
 open GBin;;
 open GPack;;
-open Ximage2;;
+open Ximage;;
 open Gui;;
 open Livshtype;;
 open Livmisc;;

@@ -16,8 +16,8 @@ open Images;;
 open OImages;;
 open Livshtype;;
 open Geometry;;
-open Ximage2;;
-open OXimage2;;
+open Ximage;;
+open OXimage;;
 
 let xvmode = ref false;;
 

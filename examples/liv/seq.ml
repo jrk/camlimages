@@ -19,6 +19,6 @@ let load_sequence_as_pixmaps ~window file =
   let seq = unoptimize_sequence seq in
   List.map
     (fun frame ->
-       Ximage2.pixmap_of_image window None
+       Ximage.pixmap_of_image window None
          frame.frame_image, frame.frame_delay)
     seq.seq_frames;;

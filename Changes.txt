@@ -3,9 +3,12 @@
 	* Instead of autoconf, using omake and ocamlfind
 	* Subpackages: no need to link codes for uninterested format.
 	* Stop supporting lablgtk1
+	  - Ximage2 module is now Ximage, and the older Ximage is removed
+	  - OXimage2 module is now OXimage, and the older OXimage is removed
 
 3.2.0
-	* Misnamed version. It should have been 3.0.2.
+	* Misnamed version. It should have been 3.0.3 or something. 
+        * Small bug fix for image load memory allocation vulnerability
 
 3.0.2
         * O'Caml 3.11 port.

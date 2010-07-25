@@ -28,7 +28,7 @@
 #                                                                     #
 #*********************************************************************#
 
-#(* $Id: Makefile.am,v 1.34 2009/07/04 03:38:36 furuse Exp $ *)
+#(* $Id: Makefile.am,v 1.34 2009-07-04 03:38:36 furuse Exp $ *)
 
 #*********************************************************************#
 #                                                                     #
@@ -54,7 +54,7 @@ pkglibdir = $(libdir)/camlimages
 pkgincludedir = $(includedir)/camlimages
 top_builddir = ..
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
-INSTALL = /usr/bin/install -c
+INSTALL = /usr/X11R6/bin/install -c
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
 install_sh_SCRIPT = $(install_sh) -c
@@ -108,48 +108,50 @@ am__append_19 = ps.ml \
 			oPs.ml
 
 am__append_20 = ps.mli
-#am__append_21 = ximage.ml \
-#		oXimage.ml \
-#		imagegdk.ml
 
-#am__append_22 = ximage.mli \
-#		   oXimage.mli \
-#		   imagegdk.mli
-
-#am__append_23 = -I $(LABLGTKDIR)
-am__append_24 = ximage2.ml \
-		oXimage2.ml \
+# now obsolete
+# if HAVE_LABLGTK
+# OCAMLSOURCES += ximage.ml \
+# 		oXimage.ml \
+# 		imagegdk.ml
+# OCAMLINTERFACES += ximage.mli \
+# 		   oXimage.mli \
+# 		   imagegdk.mli
+# AM_OCAMLCFLAGS += -I $(LABLGTKDIR)
+# endif
+am__append_21 = ximage.ml \
+		oXimage.ml \
 		imagegdk.ml
 
-am__append_25 = ximage2.mli \
-		   oXimage2.mli \
+am__append_22 = ximage.mli \
+		   oXimage.mli \
 		   imagegdk.mli
 
-am__append_26 = -I $(LABLGTK2DIR)
-am__append_27 = ftlow.ml \
+am__append_23 = -I $(LABLGTK2DIR)
+am__append_24 = ftlow.ml \
 		freetype.ml \
 		jis_table.ml \
 		jis_unicode.ml \
 		fttext.ml \
 		oFreetype.ml
 
-am__append_28 = ftlow.mli \
+am__append_25 = ftlow.mli \
 		   freetype.mli \
 		   jis_unicode.mli \
 		   fttext.mli
 
-am__append_29 = ftintf.c
-am__append_30 = $(INCFREETYPE)
-am__append_31 = oTiff.cmi
-am__append_32 = oPs.cmi
-am__append_33 = oGif.cmi
-am__append_34 = oFreetype.cmi
-am__append_35 = jis_table.cmi
+am__append_26 = ftintf.c
+am__append_27 = $(INCFREETYPE)
+am__append_28 = oTiff.cmi
+am__append_29 = oPs.cmi
+am__append_30 = oGif.cmi
+am__append_31 = oFreetype.cmi
+am__append_32 = jis_table.cmi
 DIST_COMMON = $(srcdir)/../Makefile.rules $(srcdir)/META.in \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/../autoconf/ocaml.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/ocaml.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -170,13 +172,13 @@ ocamlsitelibDATA_INSTALL = $(INSTALL_DATA)
 ocamlstublibDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(ocamlsitelib_DATA) $(ocamlstublib_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/jun/.share/projects/camlimages/missing --run aclocal-1.9
+ACLOCAL = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run aclocal-1.9
 AMDEP_FALSE = #
 AMDEP_TRUE = 
-AMTAR = ${SHELL} /home/jun/.share/projects/camlimages/missing --run tar
-AUTOCONF = ${SHELL} /home/jun/.share/projects/camlimages/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/jun/.share/projects/camlimages/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/jun/.share/projects/camlimages/missing --run automake-1.9
+AMTAR = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run tar
+AUTOCONF = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run automake-1.9
 AWK = gawk
 BUILD_BYTECODE_FALSE = #
 BUILD_BYTECODE_TRUE = 
@@ -195,9 +197,9 @@ ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
-FREETYPE_CONFIG = /usr/bin/freetype-config
+FREETYPE_CONFIG = /usr/X11R6/bin/freetype-config
 GREP = /bin/grep
-GS = /usr/bin/gs
+GS = /usr/X11R6/bin/gs
 HAVE_FREETYPE_FALSE = #
 HAVE_FREETYPE_TRUE = 
 HAVE_GIF_FALSE = #
@@ -234,7 +236,10 @@ LIBS =
 LIBTIFF = -ltiff -lz -ljpeg
 LIBXPM =  -lXpm  -lSM -lICE -lX11 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/jun/.share/projects/camlimages/missing --run makeinfo
+MAINT = #
+MAINTAINER_MODE_FALSE = 
+MAINTAINER_MODE_TRUE = #
+MAKEINFO = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run makeinfo
 OBJEXT = o
 OCAMLC = /home/jun/.share/prefix/bin/ocamlc.opt
 OCAMLCFLAGS = -warn-error A -annot
@@ -248,11 +253,11 @@ OCAMLOPT = /home/jun/.share/prefix/bin/ocamlopt.opt
 OCAMLOPT_OPT = /home/jun/.share/prefix/bin/ocamlopt.opt
 OCAMLSITELIBDIR = /home/jun/.share/prefix/lib/ocaml/site-lib/camlimages
 PACKAGE = camlimages
-PACKAGE_BUGREPORT = jun.furuse@gmail.com
+PACKAGE_BUGREPORT = use-omake-to-be-supported@nowhere.com
 PACKAGE_NAME = camlimages
-PACKAGE_STRING = camlimages 3.3.0
+PACKAGE_STRING = camlimages 3.2.0
 PACKAGE_TARNAME = camlimages
-PACKAGE_VERSION = 3.3.0
+PACKAGE_VERSION = 3.2.0
 PATH_OCAMLFIND = /home/jun/.share/prefix/bin/ocamlfind
 PATH_RGB_TXT = none
 PATH_SEPARATOR = :
@@ -267,7 +272,7 @@ SUPPORT_PNG = true
 SUPPORT_PS = true
 SUPPORT_TIFF = true
 SUPPORT_XPM = true
-VERSION = 3.3.0
+VERSION = 3.2.0
 WORD_SIZE = 4
 XMKMF = 
 X_CFLAGS = 
@@ -293,7 +298,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = /home/jun/.share/projects/camlimages/install-sh
+install_sh = /home/jun/svn/x/clean/branches/omake/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -302,7 +307,7 @@ mandir = ${datarootdir}/man
 mkdir_p = mkdir -p --
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr/local
+prefix = /home/jun/.share/prefix
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -313,16 +318,16 @@ ocamlsitelibdir = $(OCAMLSITELIBDIR)
 ocamlsitelib_DATA = camlimages.a camlimages_core.a libcamlimages.a \
 	libcamlimages_core.a $(OCAMLINTERFACES) \
 	$(OCAMLINTERFACES:.mli=.cmi) META $(am__append_1) \
-	$(am__append_2) units.cmi oXpm.cmi $(am__append_31) \
-	$(am__append_32) oPpm.cmi oPng.cmi oJpeg.cmi oGraphic.cmi \
-	$(am__append_33) $(am__append_34) oBmp.cmi $(am__append_35) \
+	$(am__append_2) units.cmi oXpm.cmi $(am__append_28) \
+	$(am__append_29) oPpm.cmi oPng.cmi oJpeg.cmi oGraphic.cmi \
+	$(am__append_30) $(am__append_31) oBmp.cmi $(am__append_32) \
 	camlimages.cmi
 ocamlstublibdir = $(libdir)/ocaml/stublibs
 ocamlstublib_DATA = dllcamlimages.so dllcamlimages_core.so
 BUILT_SOURCES = $(OCAMLBUILTSOURCES)
 LINKFLAGS = 
-AM_OCAMLCFLAGS = $(am__append_23) $(am__append_26)
-AM_CFLAGS = -I .. -DHAVE_CONFIG_H $(am__append_18) $(am__append_30)
+AM_OCAMLCFLAGS = $(am__append_23)
+AM_CFLAGS = -I .. -DHAVE_CONFIG_H $(am__append_18) $(am__append_27)
 
 # use two different variables here to avoid a circular dependency
 # between Makefile and .depend file
@@ -335,36 +340,44 @@ OCAMLSOURCES_CORE = mstring.ml color.ml region.ml tmpfile.ml bitmap.ml \
 	$(am__append_9) $(am__append_12) $(am__append_15) \
 	$(am__append_19)
 OCAMLINTERFACES = info.mli mstring.mli color.mli region.mli \
-	tmpfile.mli bitmap.mli genimage.mli rgba32.mli rgb24.mli \
-	index8.mli index16.mli cmyk32.mli images.mli oColor.mli \
-	oImages.mli reduce.mli blend.mli bmp.mli ppm.mli xvthumb.mli \
-	oXvthumb.mli colorhist.mli geometry.mli $(am__append_4) \
-	$(am__append_7) $(am__append_10) $(am__append_13) \
-	$(am__append_16) $(am__append_20) graphic_image.mli \
-	$(am__append_22) $(am__append_25) $(am__append_28)
+	tmpfile.mli bitmap.mli image_intf.mli genimage.mli rgba32.mli \
+	rgb24.mli index8.mli index16.mli cmyk32.mli images.mli \
+	oColor.mli oImages.mli reduce.mli blend.mli bmp.mli ppm.mli \
+	xvthumb.mli oXvthumb.mli colorhist.mli geometry.mli \
+	$(am__append_4) $(am__append_7) $(am__append_10) \
+	$(am__append_13) $(am__append_16) $(am__append_20) \
+	graphic_image.mli $(am__append_22) $(am__append_25)
 CSOURCES_CORE = $(am__append_5) $(am__append_8) $(am__append_11) \
 	$(am__append_14) $(am__append_17)
 
 ### end of core
 OCAMLSOURCES = $(OCAMLSOURCES_CORE) graphic_image.ml oGraphic.ml \
-	$(am__append_21) $(am__append_24) $(am__append_27)
-CSOURCES = $(CSOURCES_CORE) $(am__append_29)
+	$(am__append_21) $(am__append_24)
+CSOURCES = $(CSOURCES_CORE) $(am__append_26)
 EXTRA_DIST = $(OCAMLSOURCES) $(OCAMLINTERFACES) $(CSOURCES) camlimages.ml.in META.in
 CLEANFILES = $(OCAMLBYTOBJS) \
 	     $(OCAMLOPTOBJS) \
 	     $(OCAMLOPTOBJS:.cmx=.o) \
 	     $(OCAMLBUILTSOURCES:.ml=.cmi) \
 	     $(OCAMLSOURCES:.ml=.cmi) \
+	     $(OCAMLBUILTSOURCES:.ml=.annot) \
+	     $(OCAMLSOURCES:.ml=.annot) \
+	     $(OCAMLINTERFACES:.mli=.cmi) \
 	     info.cmi \
 	     $(COBJS) \
+	     dllcamlimages_core.so \
+             libcamlimages_core.a \
+	     camlimages_core.cma \
+	     camlimages_core.cmxa \
+	     camlimages_core.a \
+	     camlimages_core.ml \
 	     libcamlimages.a \
 	     dllcamlimages.so \
 	     camlimages.cma \
 	     camlimages.cmxa \
 	     camlimages.a \
 	     camlimages.ml \
-	     META \
-	     .depend
+	     META
 
 OCAMLBYTOBJS_CORE = $(OCAMLBUILTSOURCES:.ml=.cmo) $(OCAMLSOURCES_CORE:.ml=.cmo)
 OCAMLBYTOBJS = $(OCAMLBUILTSOURCES:.ml=.cmo) $(OCAMLSOURCES:.ml=.cmo)
@@ -380,7 +393,7 @@ all: $(BUILT_SOURCES)
 
 .SUFFIXES:
 .SUFFIXES: .ml .mli .cmo .cmi .cmx .c .o
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/../Makefile.rules $(am__configure_deps)
+$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am $(srcdir)/../Makefile.rules $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -405,9 +418,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: # $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 META: $(top_builddir)/config.status $(srcdir)/META.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -605,7 +618,7 @@ camlimages.ml: $(top_srcdir)/config.status camlimages.ml.in
 		-e 's,@SUPPORT_PS\@,$(SUPPORT_PS),g' \
 		-e 's,@SUPPORT_XPM\@,$(SUPPORT_XPM),g' \
 		-e 's,@PATH_RGB_TXT\@,$(PATH_RGB_TXT),g' \
-		-e 's,@PATH_GS\@,$(GS),g' \
+		-e 's,@GS\@,$(GS),g' \
 		-e 's,@WORD_SIZE\@,$(WORD_SIZE),g' \
 		$(srcdir)/camlimages.ml.in > camlimages.ml.tmp
 	mv camlimages.ml.tmp camlimages.ml

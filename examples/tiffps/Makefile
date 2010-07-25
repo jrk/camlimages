@@ -70,7 +70,7 @@ pkglibdir = $(libdir)/camlimages
 pkgincludedir = $(includedir)/camlimages
 top_builddir = ../..
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
-INSTALL = /usr/bin/install -c
+INSTALL = /usr/X11R6/bin/install -c
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
 install_sh_SCRIPT = $(install_sh) -c
@@ -94,7 +94,7 @@ am__append_4 = lablgtk.cma
 #am__append_6 = lablgtk.cma
 subdir = examples/tiffps
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/../autoconf/ocaml.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/ocaml.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -119,13 +119,13 @@ LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(tiffps_byt_SOURCES) $(tiffps_opt_SOURCES)
 DIST_SOURCES = $(tiffps_byt_SOURCES) $(tiffps_opt_SOURCES)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/jun/.share/projects/camlimages/missing --run aclocal-1.9
+ACLOCAL = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run aclocal-1.9
 AMDEP_FALSE = #
 AMDEP_TRUE = 
-AMTAR = ${SHELL} /home/jun/.share/projects/camlimages/missing --run tar
-AUTOCONF = ${SHELL} /home/jun/.share/projects/camlimages/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/jun/.share/projects/camlimages/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/jun/.share/projects/camlimages/missing --run automake-1.9
+AMTAR = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run tar
+AUTOCONF = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run automake-1.9
 AWK = gawk
 BUILD_BYTECODE_FALSE = #
 BUILD_BYTECODE_TRUE = 
@@ -144,9 +144,9 @@ ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
-FREETYPE_CONFIG = /usr/bin/freetype-config
+FREETYPE_CONFIG = /usr/X11R6/bin/freetype-config
 GREP = /bin/grep
-GS = /usr/bin/gs
+GS = /usr/X11R6/bin/gs
 HAVE_FREETYPE_FALSE = #
 HAVE_FREETYPE_TRUE = 
 HAVE_GIF_FALSE = #
@@ -183,7 +183,10 @@ LIBS =
 LIBTIFF = -ltiff -lz -ljpeg
 LIBXPM =  -lXpm  -lSM -lICE -lX11 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/jun/.share/projects/camlimages/missing --run makeinfo
+MAINT = #
+MAINTAINER_MODE_FALSE = 
+MAINTAINER_MODE_TRUE = #
+MAKEINFO = ${SHELL} /home/jun/svn/x/clean/branches/omake/missing --run makeinfo
 OBJEXT = o
 OCAMLC = /home/jun/.share/prefix/bin/ocamlc.opt
 OCAMLCFLAGS = 
@@ -197,11 +200,11 @@ OCAMLOPT = /home/jun/.share/prefix/bin/ocamlopt.opt
 OCAMLOPT_OPT = /home/jun/.share/prefix/bin/ocamlopt.opt
 OCAMLSITELIBDIR = /home/jun/.share/prefix/lib/ocaml/site-lib/camlimages
 PACKAGE = camlimages
-PACKAGE_BUGREPORT = jun.furuse@gmail.com
+PACKAGE_BUGREPORT = use-omake-to-be-supported@nowhere.com
 PACKAGE_NAME = camlimages
-PACKAGE_STRING = camlimages 3.3.0
+PACKAGE_STRING = camlimages 3.2.0
 PACKAGE_TARNAME = camlimages
-PACKAGE_VERSION = 3.3.0
+PACKAGE_VERSION = 3.2.0
 PATH_OCAMLFIND = /home/jun/.share/prefix/bin/ocamlfind
 PATH_RGB_TXT = none
 PATH_SEPARATOR = :
@@ -216,7 +219,7 @@ SUPPORT_PNG = true
 SUPPORT_PS = true
 SUPPORT_TIFF = true
 SUPPORT_XPM = true
-VERSION = 3.3.0
+VERSION = 3.2.0
 WORD_SIZE = 4
 XMKMF = 
 X_CFLAGS = 
@@ -242,7 +245,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = /home/jun/.share/projects/camlimages/install-sh
+install_sh = /home/jun/svn/x/clean/branches/omake/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -251,7 +254,7 @@ mandir = ${datarootdir}/man
 mkdir_p = mkdir -p --
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr/local
+prefix = /home/jun/.share/prefix
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -280,15 +283,14 @@ CLEANFILES = $(OCAMLBYTOBJS) \
 	     $(OCAMLOPTOBJS) \
 	     $(OCAMLOPTOBJS:.cmx=.o) \
 	     $(OCAMLSOURCES:.ml=.cmi) \
-	     $(COBJS) \
-	     .depend
+	     $(COBJS)
 
 SUFFIXES = .ml .mli .cmo .cmi .cmx .c .o
 all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .ml .mli .cmo .cmi .cmx .c .o
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/../../Makefile.variables $(srcdir)/../../Makefile.rules $(am__configure_deps)
+$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am $(srcdir)/../../Makefile.variables $(srcdir)/../../Makefile.rules $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -313,9 +315,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: # $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 
 clean-noinstPROGRAMS:

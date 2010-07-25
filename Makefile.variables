@@ -46,5 +46,4 @@ CLEANFILES = $(OCAMLBYTOBJS) \
 	     $(OCAMLOPTOBJS) \
 	     $(OCAMLOPTOBJS:.cmx=.o) \
 	     $(OCAMLSOURCES:.ml=.cmi) \
-	     $(COBJS) \
-	     .depend
+	     $(COBJS)

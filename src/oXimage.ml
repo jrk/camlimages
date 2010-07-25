@@ -16,29 +16,29 @@
 
 open Images;;
 open OImages;;
-open Ximage2;;
+open Ximage;;
 open Gdk;;
 
 class ximage xim = object
   method width = xim.width
   method height = xim.height
-  method unsafe_get = Ximage2.unsafe_get xim 
-  method unsafe_set = Ximage2.unsafe_set xim 
-  method get = Ximage2.get xim 
-  method set = Ximage2.set xim 
+  method unsafe_get = Ximage.unsafe_get xim 
+  method unsafe_set = Ximage.unsafe_set xim 
+  method get = Ximage.get xim 
+  method set = Ximage.set xim 
   method data = xim.data
-  method destroy = Ximage2.destroy xim
+  method destroy = Ximage.destroy xim
 end;;
 
 let create ~kind ~visual ~width ~height =
-  let xim = Ximage2.create ~kind ~visual ~width ~height in
+  let xim = Ximage.create ~kind ~visual ~width ~height in
   new ximage xim;;
 
 let get_image drawable ~x ~y ~width ~height = 
-  new ximage (Ximage2.get_image drawable ~x ~y ~width ~height);;
+  new ximage (Ximage.get_image drawable ~x ~y ~width ~height);;
 
 let of_image visual progress img =
-  new ximage (Ximage2.of_image visual progress img#image);;
+  new ximage (Ximage.of_image visual progress img#image);;
 
 open GDraw;;
 

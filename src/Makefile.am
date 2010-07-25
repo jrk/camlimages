@@ -12,7 +12,7 @@
 #                                                                     #
 #*********************************************************************#
 
-#(* $Id: Makefile.am,v 1.34.2.1 2010/05/13 13:14:47 furuse Exp $ *)
+#(* $Id: Makefile.am,v 1.34 2009-07-04 03:38:36 furuse Exp $ *)
 
 ocamlsitelibdir = $(OCAMLSITELIBDIR)
 ocamlsitelib_DATA = camlimages.a \
@@ -75,6 +75,7 @@ OCAMLINTERFACES = info.mli \
 		  region.mli \
 		  tmpfile.mli \
 		  bitmap.mli \
+		  image_intf.mli \
 		  genimage.mli \
 		  rgba32.mli \
 		  rgb24.mli \
@@ -150,22 +151,23 @@ CSOURCES= $(CSOURCES_CORE)
 OCAMLSOURCES += graphic_image.ml oGraphic.ml
 OCAMLINTERFACES += graphic_image.mli
 
-if HAVE_LABLGTK
+# now obsolete
+# if HAVE_LABLGTK
+# OCAMLSOURCES += ximage.ml \
+# 		oXimage.ml \
+# 		imagegdk.ml
+# OCAMLINTERFACES += ximage.mli \
+# 		   oXimage.mli \
+# 		   imagegdk.mli
+# AM_OCAMLCFLAGS += -I $(LABLGTKDIR)
+# endif
+
+if HAVE_LABLGTK2
 OCAMLSOURCES += ximage.ml \
 		oXimage.ml \
 		imagegdk.ml
 OCAMLINTERFACES += ximage.mli \
 		   oXimage.mli \
-		   imagegdk.mli
-AM_OCAMLCFLAGS += -I $(LABLGTKDIR)
-endif
-
-if HAVE_LABLGTK2
-OCAMLSOURCES += ximage2.ml \
-		oXimage2.ml \
-		imagegdk.ml
-OCAMLINTERFACES += ximage2.mli \
-		   oXimage2.mli \
 		   imagegdk.mli
 AM_OCAMLCFLAGS += -I $(LABLGTK2DIR)
 endif
@@ -212,16 +214,24 @@ CLEANFILES = $(OCAMLBYTOBJS) \
 	     $(OCAMLOPTOBJS:.cmx=.o) \
 	     $(OCAMLBUILTSOURCES:.ml=.cmi) \
 	     $(OCAMLSOURCES:.ml=.cmi) \
+	     $(OCAMLBUILTSOURCES:.ml=.annot) \
+	     $(OCAMLSOURCES:.ml=.annot) \
+	     $(OCAMLINTERFACES:.mli=.cmi) \
 	     info.cmi \
 	     $(COBJS) \
+	     dllcamlimages_core.so \
+             libcamlimages_core.a \
+	     camlimages_core.cma \
+	     camlimages_core.cmxa \
+	     camlimages_core.a \
+	     camlimages_core.ml \
 	     libcamlimages.a \
 	     dllcamlimages.so \
 	     camlimages.cma \
 	     camlimages.cmxa \
 	     camlimages.a \
 	     camlimages.ml \
-	     META \
-	     .depend
+	     META
 
 OCAMLBYTOBJS_CORE	= $(OCAMLBUILTSOURCES:.ml=.cmo) $(OCAMLSOURCES_CORE:.ml=.cmo)
 OCAMLBYTOBJS	= $(OCAMLBUILTSOURCES:.ml=.cmo) $(OCAMLSOURCES:.ml=.cmo)
@@ -263,7 +273,7 @@ camlimages.ml: $(top_srcdir)/config.status camlimages.ml.in
 		-e 's,@SUPPORT_PS\@,$(SUPPORT_PS),g' \
 		-e 's,@SUPPORT_XPM\@,$(SUPPORT_XPM),g' \
 		-e 's,@PATH_RGB_TXT\@,$(PATH_RGB_TXT),g' \
-		-e 's,@PATH_GS\@,$(GS),g' \
+		-e 's,@GS\@,$(GS),g' \
 		-e 's,@WORD_SIZE\@,$(WORD_SIZE),g' \
 		$(srcdir)/camlimages.ml.in > camlimages.ml.tmp
 	mv camlimages.ml.tmp camlimages.ml
