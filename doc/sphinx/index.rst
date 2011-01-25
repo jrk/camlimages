@@ -4,9 +4,9 @@
    contain the root `toctree` directive.
 
 ======================================
-CamlImages 
+CamlImages v4.0.0
 ======================================
-*Objective Caml image processing library v4.0.0*
+*Objective Caml image processing library*
 
 .. toctree::
    :numbered:
@@ -58,7 +58,7 @@ Source download
 Repository
     hg clone https://bitbucket.org/camlspotter/camlimages
 
-*These links are temporary.*
+*These links are temporary. They should be under inria.fr...*
 
 Using CamlImages
 -------------------
