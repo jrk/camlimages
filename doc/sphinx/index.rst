@@ -4,9 +4,9 @@
    contain the root `toctree` directive.
 
 ======================================
-CamlImages 
+CamlImages v4.0.0
 ======================================
-*Objective Caml image processing library v4.0.0*
+*Objective Caml image processing library*
 
 .. toctree::
    :numbered:
@@ -25,7 +25,7 @@ In addition, the library can handle huge images that cannot be (or can hardly be
 Additional example programs are supplied in the examples directory of the library:
 
 converter
-    a convertion program, that converts image from formats to formats. 
+    a conversion program, that converts image from formats to formats. 
 crop
     a ``cropping'' program, that cuts an image to its edges.
 edgedetect
@@ -37,7 +37,7 @@ liv
 monochrome
     converts a color image to monochrome. 
 normalize
-    normalizes the colormap of an image. This program anlyzes the colormap information of the image to normalize its brightness over the full range available. 
+    normalizes the colormap of an image. This program analyzes the colormap information of the image to normalize its brightness over the full range available. 
 resize
     a program to resize an image. 
 tiffps
@@ -46,11 +46,19 @@ ttfimg
     true type font dump program. It can be used to create fancy banners or buttons.
     Try for instance ttfimg ../../test/micap.ttf -message Bonjour -fg red -bg black. Visualize with liv (of course). ttfimg also creates some sample images of true type fonts. Try ttfimg -o sample_micap.jpg ../../test/micap.ttf.
 
-Installation
------------------
+Download and Installation
+--------------------------
 
 Get the source tar ball, decompress it, and read the file INSTALL.
 You can also access the read-only repository which contains the latest developing (but not yet released) version.
+
+Source download
+    https://bitbucket.org/camlspotter/camlimages/get/camlimages-4.0.0.tar.bz2
+
+Repository
+    hg clone https://bitbucket.org/camlspotter/camlimages
+
+*These links are temporary. They should be under inria.fr...*
 
 Using CamlImages
 -------------------
@@ -64,7 +72,7 @@ CamlImages supports the following color models:
 * Index8: 8bit depth indexed image with transparent information.
 * Index16: 16bit depth indexed image with transparent.
 * Rgba32: 32bit depth full color image, with the alpha channel.
-* Cmyk32: 32bit Cyan Magenta Yellow and blacK image. (Unfortunatelly, beautiful conversion between RGB and CMYK is not supported.) 
+* Cmyk32: 32bit Cyan Magenta Yellow and black image. (Unfortunately, beautiful conversion between RGB and CMYK is not supported.) 
 
 For each color model, a corresponding module is provided. For example, use the module Rgb24 if you want to access 24bit depth full color images.
 
@@ -83,7 +91,7 @@ CamlImages supports loading and saving of the following file formats:
 * xv thumbnail files (see xvthumb directory). 
 
 For each image format, we provide a separate module. For instance, use the Tiff module to load and save images stored in the tiff file format.
-If you do not want to specify the file format, you can use Image.load: this function automatically analyses the header of the image file at hand and loads the image into the memory, if the library supports this format.
+If you do not want to specify the file format, you can use Image.load: this function automatically analyzes the header of the image file at hand and loads the image into the memory, if the library supports this format.
 
 CamlImages also provides an interface to the internal image format of O'Caml's Graphics library (this way you can draw your image files into the Graphics window).
 
