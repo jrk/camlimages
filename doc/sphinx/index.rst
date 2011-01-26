@@ -17,7 +17,7 @@ What is CamlImages ?
 CamlImages is an image processing library, which provides
 
 * Basic functions for image processing and loading/saving various image file formats (hence providing a translation facility from format to format),
-* An interface with the Caml graphics library allows to display images in the Graphics module screen and to mix them with Caml drawings,
+* Interfaces with the Caml graphics library and LablGtk2 allows to display images in GUI environments
 * A freetype interface, integrated into the library: you can draw texts into images using any truetype fonts. 
 
 In addition, the library can handle huge images that cannot be (or can hardly be) stored into the main memory (the library then automatically creates swap files and escapes them to reduce the memory usage).
@@ -25,26 +25,26 @@ In addition, the library can handle huge images that cannot be (or can hardly be
 Additional example programs are supplied in the examples directory of the library:
 
 converter
-    a conversion program, that converts image from formats to formats. 
+    Conversion program, that converts image from formats to formats. 
 crop
-    a ``cropping'' program, that cuts an image to its edges.
+    `Cropping' program, that cuts an image to its edges.
 edgedetect
-    a program to detect edges into an image.
+    Program to detect edges into an image.
 gifanim
-    an animation program for gif encoded series of images. 
+    Animation program for gif encoded series of images. 
 liv
-    an extension of the Unix ls command to view a set of images. (Also considered as a light version of xv with nice slide show capabilities.)
+    Image viewer using LablGtk.
 monochrome
-    converts a color image to monochrome. 
+    Converts a color image to monochrome. 
 normalize
-    normalizes the colormap of an image. This program analyzes the colormap information of the image to normalize its brightness over the full range available. 
+    Normalizes the colormap of an image. This program analyzes the colormap information of the image to normalize its brightness over the full range available. 
 resize
-    a program to resize an image. 
+    Program to resize an image. 
 tiffps
-    a program to output a postscript version of a tiff image (for instance to print it). 
+    Program to output a postscript version of a tiff image (for instance to print it). 
 ttfimg
-    true type font dump program. It can be used to create fancy banners or buttons.
-    Try for instance ttfimg ../../test/micap.ttf -message Bonjour -fg red -bg black. Visualize with liv (of course). ttfimg also creates some sample images of true type fonts. Try ttfimg -o sample_micap.jpg ../../test/micap.ttf.
+    True-type font dump program. It can be used to create fancy banners or buttons.
+    Try for instance ``ttfimg ../../test/micap.ttf -message Bonjour -fg red -bg black``. Visualize with liv (of course). ttfimg also creates some sample images of true type fonts. Try ``ttfimg -o sample_micap.jpg ../../test/micap.ttf``.
 
 Download and Installation
 --------------------------
@@ -128,6 +128,10 @@ You can find some examples in the examples directory including image auto-croppi
 How do I organize my Makefile to use the library ?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-From v4.0.0, CamlImages use the `OMake build system <http://omake.metaprl.org/index.html>`_ and you need to write OMakefile instead of Makefile. You can see such an example of OMakefile at
+From v4.0.0, CamlImages use the `OMake build system <http://omake.metaprl.org/index.html>`_ and you need to write OMakefile instead of Makefile. You can see such an example of OMakefile at:
 
         examples/converter-external/OMakefile
+
+Issue tracker
+----------------------
+http://modulogic.inria.fr/bugtracker/view_all_bug_page.php
