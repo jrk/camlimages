@@ -18,6 +18,7 @@ src/camlimages\.ml$
 src/META$
 
 doc/eng\.html
+doc/sphinx/_build
 
 test/out\.image$
 test/test$
