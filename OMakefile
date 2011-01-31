@@ -14,6 +14,8 @@
 
 include OMyMakeroot
 
+RequireAptPackages(libgif-dev)
+
 ########################################## You may want to change these
 
 # Specify non standard include directories
