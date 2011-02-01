@@ -14,8 +14,6 @@
 
 include OMyMakeroot
 
-RequireAptPackages(libgif-dev)
-
 ########################################## You may want to change these
 
 # Specify non standard include directories
@@ -80,6 +78,10 @@ print_configured() =
 .STATIC:
   # Variables must be initialized inside .STATIC, if they should be
   # exported out.
+
+  # For the author's personal use
+  if $(defined WithOMyApt)
+    InstallAptPackages(libgif-dev libjpeg62-dev libtiff4-dev libpng12-dev libfreetype6-dev libxpm-dev)
 
   if $(not $(OCAMLFIND_EXISTS))
      eprintln(This project requires ocamlfind\, but is was not found.)
