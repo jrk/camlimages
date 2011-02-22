@@ -52,6 +52,7 @@ external libraries:
 
 *** Installation procedure by omake
 
+ % yes no | omake --install 
  % omake
  % omake install
 
