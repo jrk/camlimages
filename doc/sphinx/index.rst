@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ======================================
-CamlImages v4.0.0
+CamlImages v4.0.1
 ======================================
 *Objective Caml image processing library*
 
@@ -53,12 +53,10 @@ Get the source tar ball, decompress it, and read the file INSTALL.
 You can also access the read-only repository which contains the latest developing (but not yet released) version.
 
 Source download
-    https://bitbucket.org/camlspotter/camlimages/get/camlimages-4.0.0.tar.bz2
+    https://bitbucket.org/camlspotter/camlimages/get/v4.0.1.tar.gz
 
 Repository
     hg clone https://bitbucket.org/camlspotter/camlimages
-
-*These links are temporary. They should be under inria.fr...*
 
 Using CamlImages
 -------------------
