@@ -2,7 +2,8 @@ name = "CamlImages"
 version = "@PACKAGE_VERSION@"
 description = "Objective Caml image processing library"
 
-requires = "camlimages.core"
+archive(byte) = "camlimages.cma"
+archive(native) = "camlimages.cmxa"
 
 package "core" (
   archive(byte) = "camlimages_core.cma"

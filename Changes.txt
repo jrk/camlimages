@@ -1,3 +1,6 @@
+4.0.1
+	* Minor bug fixes, patch submitted by Damien Doligez 
+ 
 4.0.0
 	* Stop supporting the autoconf build. (It might works though.)
 	* Instead of autoconf, using omake and ocamlfind
