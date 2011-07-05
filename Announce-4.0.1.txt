@@ -1,6 +1,6 @@
 Hi,
 
-I'm glad to announce the availability of the 3.3.0 version of the
+I'm glad to announce the availability of the 4.0.1 version of the
 CamlImages library, by Jun Furuse, François Pessaux, and Pierre Weis.
 
 This is a bug fix release.
