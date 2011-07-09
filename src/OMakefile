@@ -225,7 +225,7 @@ MakeLibOCaml(name) =
     $(LIBRARY_PREFIX)_$(name).cma $(LIBRARY_PREFIX)_$(name).cmxa: $(MakeLibC $(name))
     # OCAML_{BYTE,NATIVE}_LINK_FLAGS do not work for OCamlLibrary
     # Bit dirty workaround
-    OCAMLCFLAGS+=-dllib -l$(LIBRARY_PREFIX)_$(name)
+    OCAMLCFLAGS+=-custom -cclib -l$(LIBRARY_PREFIX)_$(name)
     OCAMLOPTFLAGS+=-cclib -l$(LIBRARY_PREFIX)_$(name)
     # use mapprefix instead of addprefix, otherwise "-cclib -lgif"
     # is considered one option.
